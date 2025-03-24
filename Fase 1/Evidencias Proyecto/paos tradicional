@@ -1,0 +1,101 @@
+El modelo tradicional para el desarrollo de proyectos informáticos se basa principalmente en el modelo Cascada (Waterfall), que es un enfoque secuencial donde cada fase del proyecto se realiza de forma lineal y fluida. A continuación, te detallo los pasos más comunes dentro de este modelo:
+
+1. Recolección de Requisitos
+Objetivo: Entender las necesidades del cliente y los requerimientos del sistema.
+
+Actividades:
+
+Entrevistas con los interesados.
+
+Análisis de documentos y procesos existentes.
+
+Elaboración de un documento detallado de los requisitos (especificación de requisitos).
+
+2. Análisis del Sistema
+Objetivo: Analizar los requisitos recolectados para definir cómo el sistema debería funcionar.
+
+Actividades:
+
+Modelado de procesos.
+
+Identificación de entradas y salidas del sistema.
+
+Diseño de la arquitectura de alto nivel.
+
+Generación de diagramas como los diagramas de flujo o diagramas de casos de uso.
+
+3. Diseño del Sistema
+Objetivo: Traducir los requisitos en un diseño técnico del sistema.
+
+Actividades:
+
+Diseño de la base de datos.
+
+Diseño de interfaces de usuario.
+
+Diseño detallado de la arquitectura y componentes del sistema.
+
+Elección de tecnologías a usar (lenguajes de programación, plataformas, herramientas, etc.).
+
+4. Implementación (Codificación)
+Objetivo: Desarrollar el sistema según el diseño aprobado.
+
+Actividades:
+
+Programación de los módulos o componentes del sistema.
+
+Codificación de la base de datos.
+
+Creación de interfaces de usuario.
+
+Realización de pruebas unitarias en paralelo con el desarrollo.
+
+5. Pruebas del Sistema
+Objetivo: Verificar que el sistema funcione correctamente según los requisitos establecidos.
+
+Actividades:
+
+Pruebas de integración.
+
+Pruebas de sistema (funcionalidades completas).
+
+Pruebas de aceptación del usuario (para verificar que cumple con los requisitos del cliente).
+
+6. Implementación y Despliegue
+Objetivo: Poner en producción el sistema para que sea utilizado por los usuarios finales.
+
+Actividades:
+
+Instalación y configuración del sistema en el entorno de producción.
+
+Capacitación a los usuarios finales.
+
+Migración de datos desde sistemas antiguos (si es necesario).
+
+7. Mantenimiento
+Objetivo: Realizar correcciones, actualizaciones y mejoras al sistema después de su implementación.
+
+Actividades:
+
+Corrección de errores (bugs).
+
+Actualización de software.
+
+Agregar nuevas funcionalidades o modificaciones según cambios en los requisitos.
+
+Resumen del Proceso
+Recolección de Requisitos
+
+Análisis del Sistema
+
+Diseño del Sistema
+
+Implementación
+
+Pruebas
+
+Despliegue
+
+Mantenimiento
+
+Este enfoque Cascada es adecuado para proyectos bien definidos desde el principio, con requisitos claros y cambios mínimos. Sin embargo, es más rígido comparado con otros modelos ágiles y puede no ser ideal para proyectos que requieren flexibilidad o evolución constante.
