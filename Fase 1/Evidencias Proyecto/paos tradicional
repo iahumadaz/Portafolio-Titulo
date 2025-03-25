@@ -99,3 +99,50 @@ Despliegue
 Mantenimiento
 
 Este enfoque Cascada es adecuado para proyectos bien definidos desde el principio, con requisitos claros y cambios mínimos. Sin embargo, es más rígido comparado con otros modelos ágiles y puede no ser ideal para proyectos que requieren flexibilidad o evolución constante.
+
+
+
+
+
+
+
+
+
+
+otro:
+Diseñar una interfaz intuitiva y accesible que facilite la navegación y el uso de la aplicación por parte de cualquier usuario.  
+Implementar un sistema de registro y autenticación de usuarios para personalizar la experiencia y almacenar sus preferencias.  
+Desarrollar una funcionalidad que permita a los usuarios ingresar y personalizar recetas según sus necesidades y gustos.  
+Integrar un sistema de análisis nutricional que evalúe los ingredientes de las recetas y brinde recomendaciones en tiempo real.  
+Incorporar una base de datos con recetas predefinidas y la opción de compartir recetas entre usuarios. 
+Crear una funcionalidad de compartir recetas de manera directa a través de un qr. 
+
+
+1- Recoleccion de requisitos
+	-diagrama uml alcance usuario
+	-Revision de requisitos
+	-Definir limites del proyecto (alcance)
+	-priorizacion de requisitos
+	-elaboracion documento requisitos
+2- Analisis del sistema
+	-Modelado del sistema a través de diagramas y modelos visuales.
+		-Diagramas de flujo: Representar el flujo de información y actividades dentro del sistema, para comprender mejor cómo los diferentes componentes interactúan entre sí.
+		-Diagramas de casos de uso: Mostrar cómo los usuarios interactúan con el sistema, identificando actores, funciones y relaciones. Ayuda a visualizar las principales interacciones entre el sistema y los usuarios.
+		-Diagramas de entidades y relaciones (ER): Definir las entidades clave que manejará el sistema (por ejemplo, usuarios, productos, transacciones) y las relaciones entre ellas. Esto es particularmente útil en el diseño de bases de datos.
+		-Modelado de procesos de negocio: Utilizar diagramas como BPMN (Business Process Model and Notation) para describir cómo se llevan a cabo los procesos de negocio que el sistema debe apoyar.
+	-Análisis de la viabilidad del sistema
+	-Definición de los requisitos de datos
+	-Identificación de las interfaces del sistema
+	-Análisis de riesgos y restricciones
+	-Documentación de los requisitos y análisis realizados.
+3- Diseño de la arquitectura del sistema (estructura general y componentes).
+	-Diseño de la base de datos (modelado, tablas, relaciones).
+	-Diseño de la interfaz de usuario (UI/UX) (maquetas, prototipos, experiencia de usuario).
+	-Diseño de las APIs y interfaces externas (comunicación con otros sistemas).
+	-Diseño de la seguridad del sistema (autenticación, autorización, cifrado).
+	-Diseño de la lógica de negocio (reglas y algoritmos).
+	-Definición de las pruebas (unitarias, integración, aceptación).
+	-Especificación de la infraestructura y recursos técnicos (tecnologías, servidores, escalabilidad).
+	-Documentación del diseño (detalles técnicos y diagramas)Diseño del sistema
+4- Implementación del Sistema
+	-
