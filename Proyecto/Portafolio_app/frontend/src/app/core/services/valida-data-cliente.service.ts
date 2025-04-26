@@ -16,61 +16,65 @@ import { Injectable } from '@angular/core';
 })
 export class ValidaDataClienteService {
 
-
-
-  //errores
+  // Errores
   err_blancos: string = '';
   err_formato: string = '';
 
   constructor() { }
 
-  ValidaBlancos(nombre: string, correo: string, password: string): { valido: boolean, error: string | null } {
-    if (nombre.trim().length === 0) {
+  // Valida que los campos no estén vacíos
+  private ValidaBlancos(correo: string, password: string, nombre?: string): { valido: boolean, error: string | null } {
+    if (nombre !== undefined && nombre.trim().length === 0) {
       this.err_blancos = "Nombre está vacío o con solo espacios";
-      return { valido: false, error: this.err_blancos }; 
+      return { valido: false, error: this.err_blancos };
     }
 
     if (correo.trim().length === 0) {
       this.err_blancos = "Correo está vacío o con solo espacios";
-      return { valido: false, error: this.err_blancos }; 
+      return { valido: false, error: this.err_blancos };
     }
-  
+
     if (password.trim().length === 0) {
       this.err_blancos = "Contraseña está vacía o con solo espacios";
       return { valido: false, error: this.err_blancos };
     }
-  
-    return { valido: true, error: null }; // No hay error
-  }
-  
-  
 
-  ValidaFormato(correo: string): { valido: boolean, error: string | null } {
+    return { valido: true, error: null };
+  }
+
+  // Valida el formato del correo
+  private ValidaFormato(correo: string): { valido: boolean, error: string | null } {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const esValido = regex.test(correo.trim());
-  
+
     if (!esValido) {
       this.err_formato = "Correo inválido. Ej: usuario@correo.cl";
       return { valido: false, error: this.err_formato }; 
     }
-  
-    return { valido: true, error: null }; // No hay error
-  }
-  
-  
 
-  validaDatos(nombre: string, correo: string, password: string): { valido: boolean, error: string | null } {
-    const resultadoBlancos = this.ValidaBlancos(nombre,correo, password);
-    if (!resultadoBlancos.valido) {
-      return { valido: false, error: resultadoBlancos.error }; // Si hay error, devuelvo el estado y el error
-    }
-  
-    const resultadoFormato = this.ValidaFormato(correo);
-    if (!resultadoFormato.valido) {
-      return { valido: false, error: resultadoFormato.error }; // Si hay error, devuelvo el estado y el error
-    }
-  
-    return { valido: true, error: null }; // Todo está bien
+    return { valido: true, error: null };
   }
-  
+
+  // Validación para registro (nombre requerido)
+  validaRegistro(nombre: string, correo: string, password: string): { valido: boolean, error: string | null } {
+    const resultadoBlancos = this.ValidaBlancos(correo, password, nombre);
+    if (!resultadoBlancos.valido) return resultadoBlancos;
+
+    const resultadoFormato = this.ValidaFormato(correo);
+    if (!resultadoFormato.valido) return resultadoFormato;
+
+    return { valido: true, error: null };
+  }
+
+  // Validación para login (sin nombre)
+  validaLogin(correo: string, password: string): { valido: boolean, error: string | null } {
+    const resultadoBlancos = this.ValidaBlancos(correo, password); 
+    if (!resultadoBlancos.valido) return resultadoBlancos;
+
+    const resultadoFormato = this.ValidaFormato(correo);
+    if (!resultadoFormato.valido) return resultadoFormato;
+
+    return { valido: true, error: null };
+  }
+
 }

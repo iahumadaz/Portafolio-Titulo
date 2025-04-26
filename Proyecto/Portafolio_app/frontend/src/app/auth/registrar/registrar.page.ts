@@ -33,42 +33,37 @@ export class RegistrarPage implements OnInit {
 
   async Registrar() {
     try {
-      const resultado = this.validaDataClienteService.validaDatos(this.rg_nombre, this.rg_email, this.rg_password);
+      const resultado = this.validaDataClienteService.validaRegistro(this.rg_nombre, this.rg_email, this.rg_password);
   
       if (!resultado.valido) {
-
         console.log("❌ Error de validación:", resultado.error);
   
-
-        const toast = await this.toastController.create({
-          message: resultado.error || 'Ocurrió un error desconocido',
-          duration: 2000,
-          color: 'danger', 
-          position: 'top', 
-        });
-        toast.present();
-  
+        await this.mostrarToast(resultado.error || 'Ocurrió un error desconocido', 'danger');
         return;
       }
   
       console.log("✅ Datos válidos, continuar con el registro");
   
+      await this.mostrarToast('Datos validados correctamente, procediendo al registro...', 'success');
   
-      const toast = await this.toastController.create({
-        message: 'Datos validados correctamente, procediendo al registro...',
-        duration: 2000,
-        color: 'success', 
-        position: 'top',
-      });
-      toast.present();
-  
-      //COLOCAR LLAMADO A BACK AQUI EN FUTURO.
+      // TODO: Colocar llamado al backend aquí
   
     } catch (error) {
-      // Si ocurre un error en la ejecución del servicio
       console.log("❌ Error al ejecutar servicio validaDataClienteService:", error);
+      await this.mostrarToast('Error inesperado al validar datos', 'danger');
     }
   }
   
+  
+  private async mostrarToast(mensaje: string, color: 'danger' | 'success') {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color,
+      position: 'top',
+    });
+    toast.present();
+  }
+    
 
 }
