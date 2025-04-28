@@ -18,6 +18,10 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
+  //desde android studio
+  //private apiUrl = 'http://10.0.2.2:3000/api/auth';
+
+  //desde localhost
   private apiUrl = 'http://localhost:3000/api/auth';
 
   // Errores

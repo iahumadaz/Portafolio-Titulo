@@ -52,9 +52,9 @@ export class RegistrarPage implements OnInit {
             //NO OLVIDAR REDIRIGIR AQUI EN UN FUTURO A EL LOGIN
           },
           error: async (error) => {
-            console.error('❌ Error en el registro:', error);
+            console.error('❌ Error en el registro:', JSON.stringify(error));
             await this.mostrarToast('Error en el registro. Intenta más tarde.', 'danger');
-            console.log('❌ Error en el registro:', error);
+            console.log('❌ Error en el registro:', JSON.stringify(error));
           }
         });
   
