@@ -1,4 +1,21 @@
+
+//*******************************************************************************/
+//*                                   Cookwell                                  */
+//*******************************************************************************/
+//* proyecto: Auth Cookwell                                                     */
+//* servicio: login usuario                                                     */
+//* Desarrollador: Bastian Lisboa (BAS) - Modificado por ChatGPT (Iván)          */
+//* Fecha: 28-04-2025                                                           */
+//*******************************************************************************/
+//* MODIFICACIONES                                                              */
+//*******************************************************************************/
+//* Archivo adaptado para LOGIN de usuarios                                     */
+//*******************************************************************************/
+
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,9 +25,56 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  lg_email: string = '';
+  lg_password: string = '';
 
-  ngOnInit() {
+  constructor(
+    private authService: AuthService,
+    private toastController: ToastController,
+    private router: Router
+  ) {}
+
+  ngOnInit() {}
+
+  async iniciarSesion() {
+    try {
+      if (!this.lg_email || !this.lg_password) {
+        await this.mostrarToast('Debes ingresar correo y contraseña', 'danger');
+        return;
+      }
+
+      console.log("🔵 Intentando iniciar sesión...");
+
+      this.authService.loginUser(this.lg_email, this.lg_password)
+        .subscribe({
+          next: async (respuesta) => {
+            console.log('✅ Inicio de sesión exitoso:', respuesta);
+            await this.mostrarToast('Inicio de sesión exitoso!', 'success');
+            // Aquí podrías redirigir al home o dashboard, por ejemplo
+          },
+          error: async (error) => {
+            console.error('❌ Error al iniciar sesión:', error);
+            await this.mostrarToast('Correo o contraseña inválidos', 'danger');
+          }
+        });
+
+    } catch (error) {
+      console.log('❌ Error inesperado:', error);
+      await this.mostrarToast('Error inesperado al iniciar sesión', 'danger');
+    }
+  }
+
+  private async mostrarToast(mensaje: string, color: 'danger' | 'success') {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      color,
+      position: 'top',
+    });
+    toast.present();
+  }
+  registrarse() {
+    this.router.navigate(['/registrar']);
   }
 
 }

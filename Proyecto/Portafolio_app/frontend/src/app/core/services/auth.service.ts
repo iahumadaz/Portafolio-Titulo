@@ -75,4 +75,9 @@ export class AuthService {
     console.log('Entro a RegisterUser en front -> auth.service.ts')
     return this.http.post(`${this.apiUrl}/register`, body);
   }
+  loginUser(email:string,password:string){
+    const body = {email: email, password };
+    return this.http.post(`${this.apiUrl}/login`, body);
+  }
 }
+
