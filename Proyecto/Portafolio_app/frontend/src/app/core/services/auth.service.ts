@@ -102,5 +102,11 @@ export class AuthService {
     const body = {email: email, password };
     return this.http.post(`${this.apiUrl}/login`, body);
   }
+
+  //GUARD CORE (EN CONSTRUCCION)
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token'); // o sessionStorage, depende de tu estrategia
+    return !!token; // Devuelve true si hay token
+  }
 }
 

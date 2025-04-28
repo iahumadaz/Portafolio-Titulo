@@ -12,6 +12,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar',
@@ -25,7 +26,7 @@ export class RegistrarPage implements OnInit {
   rg_password: string = '';
   rg_nombre: string = '';
 
-  constructor(private authService: AuthService,private toastController: ToastController) {}
+  constructor(private authService: AuthService,private toastController: ToastController, private router: Router) {}
 
   ngOnInit() {
   }
@@ -50,6 +51,7 @@ export class RegistrarPage implements OnInit {
             console.log('✅ Registro exitoso:', respuesta);
             await this.mostrarToast('Usuario registrado exitosamente!', 'success');
             //NO OLVIDAR REDIRIGIR AQUI EN UN FUTURO A EL LOGIN
+            this.router.navigate(['/login']);
           },
           error: async (error) => {
             console.error('❌ Error en el registro:', JSON.stringify(error));
