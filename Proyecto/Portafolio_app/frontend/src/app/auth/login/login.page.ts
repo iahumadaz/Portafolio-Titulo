@@ -4,10 +4,12 @@
 //*******************************************************************************/
 //* proyecto: Auth Cookwell                                                     */
 //* servicio: login usuario                                                     */
-//* Desarrollador: Bastian Lisboa (BAS) - Modificado por ChatGPT (Iván)          */
+//* Desarrollador: Bastian Lisboa (BAS) - Ivan Ahumada (IVA)          */
 //* Fecha: 28-04-2025                                                           */
 //*******************************************************************************/
-//* MODIFICACIONES                                                              */
+//* MODIFICACIONES      
+/*  Practicamente es una copia al modlo de registrar, solo con los 2 datos requeridos
+para la autentiacion                            */
 //*******************************************************************************/
 //* Archivo adaptado para LOGIN de usuarios                                     */
 //*******************************************************************************/
@@ -42,22 +44,22 @@ export class LoginPage implements OnInit {
         await this.mostrarToast('Debes ingresar correo y contraseña', 'danger');
         return;
       }
-
+  
       console.log("🔵 Intentando iniciar sesión...");
-
+  
       this.authService.loginUser(this.lg_email, this.lg_password)
         .subscribe({
           next: async (respuesta) => {
             console.log('✅ Inicio de sesión exitoso:', respuesta);
             await this.mostrarToast('Inicio de sesión exitoso!', 'success');
-            // Aquí podrías redirigir al home o dashboard, por ejemplo
+            // Aquí puedes redirigir al home, dashboard, etc.
           },
           error: async (error) => {
             console.error('❌ Error al iniciar sesión:', error);
             await this.mostrarToast('Correo o contraseña inválidos', 'danger');
           }
         });
-
+  
     } catch (error) {
       console.log('❌ Error inesperado:', error);
       await this.mostrarToast('Error inesperado al iniciar sesión', 'danger');
