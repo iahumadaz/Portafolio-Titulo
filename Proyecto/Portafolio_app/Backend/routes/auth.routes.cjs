@@ -2,7 +2,7 @@
 //*                                   Cookwell                                  */
 //*******************************************************************************/
 //* proyecto: Auth Coockwell                                                    */
-//* servicio: Controlador api auth                                              */
+//* servicio: Api auth router                                                   */
 //* Desarrollador: Bastian Lisboa (BAS)                                         */
 //* Fecha: 26-04-2025                                                           */
 //*******************************************************************************/
@@ -10,19 +10,14 @@
 //*******************************************************************************/
 //*******************************************************************************/
 
-export function registerUser(req, res) {
-    console.log('Entro a registerUser en backend -> auth.controller.jd');
-    const { nombre, email, password } = req.body;
-    console.log('Datos recibidos:', nombre, email, password);
+const express = require('express');
+const router = express.Router();
+const authController = require('../controllers/auth.controller.cjs');
 
-    // Aquí iría la lógica para guardar en base de datos
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
-}
+//Registrar
+router.post('/register', authController.registerUser);
+    
+//Iniciar sesión
+router.post('/login', authController.loginUser);
 
-export function loginUser(req, res) {
-    const { email, password } = req.body;
-    console.log('Intento de login:', email);
-
-    // Aquí iría la lógica para verificar usuario
-    res.status(200).json({ message: 'Inicio de sesión exitoso' });
-}
+module.exports = router;

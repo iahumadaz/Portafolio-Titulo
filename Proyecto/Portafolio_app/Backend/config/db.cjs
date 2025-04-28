@@ -1,23 +1,28 @@
 //*******************************************************************************/
 //*                                   Cookwell                                  */
 //*******************************************************************************/
-//* proyecto: Auth Coockwell                                                    */
-//* servicio: Api auth                                                          */
+//* proyecto: Conexion db                                                       */
 //* Desarrollador: Bastian Lisboa (BAS)                                         */
-//* Fecha: 26-04-2025                                                           */
+//* Fecha: 28-04-2025                                                           */
 //*******************************************************************************/
 //* MODIFICACIONES                                                              */
 //*******************************************************************************/
 //*******************************************************************************/
+const mysql = require('mysql2');
 
-const express = require('express');
-const router = express.Router();
-const authController = require('../controllers/auth.controller');
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE
+});
 
-//Registrar
-router.post('/register', authController.registerUser);
-    
-//Iniciar sesión
-router.post('/login', authController.loginUser);
+db.connect((err) => {
+  if (err) {
+    console.error('Error de conexión a la base de datos:', err);
+    return;
+  }
+  console.log('Conectado a la base de datos.');
+});
 
-module.exports = router;
+module.exports = db;
