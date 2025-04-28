@@ -2,7 +2,7 @@
 //*                                   Cookwell                                  */
 //*******************************************************************************/
 //* proyecto: Auth Coockwell                                                    */
-//* servicio: registro usuario                                                  */
+//* servicio: registro usuario ts                                               */
 //* Desarrollador: Bastian Lisboa (BAS)                                         */
 //* Fecha: 22-04-2025                                                           */
 //*******************************************************************************/

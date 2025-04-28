@@ -1,3 +1,14 @@
+//*******************************************************************************/
+//*                                   Cookwell                                  */
+//*******************************************************************************/
+//* proyecto: Auth Coockwell                                                    */
+//* servicio: Auth service                                                      */
+//* Desarrollador: Bastian Lisboa (BAS)                                         */
+//* Fecha: 22-04-2025                                                           */
+//*******************************************************************************/
+//* MODIFICACIONES                                                              */
+//*******************************************************************************/
+//*******************************************************************************/
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
 import { Observable } from 'rxjs';
@@ -20,16 +31,21 @@ export class AuthService {
   private ValidaBlancos(correo: string, password: string, nombre?: string): { valido: boolean, error: string | null } {
     if (nombre !== undefined && nombre.trim().length === 0) {
       this.err_blancos = "Nombre está vacío o con solo espacios";
+      console.log('Nombre está vacío o con solo espacios');
       return { valido: false, error: this.err_blancos };
     }
 
     if (correo.trim().length === 0) {
       this.err_blancos = "Correo está vacío o con solo espacios";
+      console.log('Correo está vacío o con solo espacios');
+      
       return { valido: false, error: this.err_blancos };
     }
 
     if (password.trim().length === 0) {
       this.err_blancos = "Contraseña está vacía o con solo espacios";
+      console.log('Contraseña está vacía o con solo espacios');
+      
       return { valido: false, error: this.err_blancos };
     }
 
@@ -49,6 +65,8 @@ export class AuthService {
   }
 
   validaRegistro(nombre: string, correo: string, password: string): { valido: boolean, error: string | null } {
+    console.log('Entro a validaRegistro -> Data:', nombre, correo, password);
+    
     const resultadoBlancos = this.ValidaBlancos(correo, password, nombre);
     if (!resultadoBlancos.valido) return resultadoBlancos;
 
@@ -71,8 +89,9 @@ export class AuthService {
   //**************************************************SOLICITUD API */
 
   registerUser(nombre: string, correo: string, password: string): Observable<any> {
-    const body = { name: nombre, email: correo, password };
-    console.log('Entro a RegisterUser en front -> auth.service.ts')
+    const body = { nombre: nombre, email: correo, password };
+    console.log('Entro a RegisterUser en front -> auth.service.ts', body)
+
     return this.http.post(`${this.apiUrl}/register`, body);
   }
 }

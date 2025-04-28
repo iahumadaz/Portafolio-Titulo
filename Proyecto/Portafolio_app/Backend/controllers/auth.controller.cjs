@@ -14,7 +14,7 @@ const db = require('../config/db.cjs');
 
 // Registrarse
 function registerUser(req, res) {
-    console.log('Entro a registerUser en backend -> auth.controller.js');
+    console.log('Entro a registerUser en backend -> auth.controller.cjs');
     const { nombre, email, password } = req.body;
     console.log('Datos recibidos:', nombre, email, password);
 
@@ -38,12 +38,15 @@ function registerUser(req, res) {
     });
 }
 
+
+
+
 // Iniciar sesión
 function loginUser(req, res) {
     const { email, password } = req.body;
     console.log('Intento de login:', email);
 
-    // Aquí iría la lógica real de login, de momento es solo una respuesta dummy
+
     res.status(200).json({ message: 'Inicio de sesión exitoso' });
 }
 
