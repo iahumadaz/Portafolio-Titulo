@@ -10,7 +10,7 @@
 //*******************************************************************************/
 //*******************************************************************************/
 import { Component, OnInit } from '@angular/core';
-import { ValidaDataClienteService } from 'src/app/core/services/valida-data-cliente.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -25,7 +25,7 @@ export class RegistrarPage implements OnInit {
   rg_password: string = '';
   rg_nombre: string = '';
 
-  constructor(private validaDataClienteService: ValidaDataClienteService,private toastController: ToastController) {}
+  constructor(private authService: AuthService,private toastController: ToastController) {}
 
   ngOnInit() {
   }
@@ -33,26 +33,37 @@ export class RegistrarPage implements OnInit {
 
   async Registrar() {
     try {
-      const resultado = this.validaDataClienteService.validaRegistro(this.rg_nombre, this.rg_email, this.rg_password);
+      const resultado = this.authService.validaRegistro(this.rg_nombre, this.rg_email, this.rg_password);
   
       if (!resultado.valido) {
         console.log("❌ Error de validación:", resultado.error);
-  
         await this.mostrarToast(resultado.error || 'Ocurrió un error desconocido', 'danger');
         return;
       }
   
-      console.log("✅ Datos válidos, continuar con el registro");
+      console.log("✅ Datos válidos, enviando solicitud al backend...");
   
-      await this.mostrarToast('Datos validados correctamente, procediendo al registro...', 'success');
-  
-      // TODO: Colocar llamado al backend aquí
+      //enviamos al backend
+      this.authService.registerUser(this.rg_nombre, this.rg_email, this.rg_password)
+        .subscribe({
+          next: async (respuesta) => {
+            console.log('✅ Registro exitoso:', respuesta);
+            await this.mostrarToast('Usuario registrado exitosamente!', 'success');
+            //NO OLVIDAR REDIRIGIR AQUI EN UN FUTURO A EL LOGIN
+          },
+          error: async (error) => {
+            console.error('❌ Error en el registro:', error);
+            await this.mostrarToast('Error en el registro. Intenta más tarde.', 'danger');
+            console.log('❌ Error en el registro:', error);
+          }
+        });
   
     } catch (error) {
-      console.log("❌ Error al ejecutar servicio validaDataClienteService:", error);
+      console.log("❌ Error inesperado:", error);
       await this.mostrarToast('Error inesperado al validar datos', 'danger');
     }
   }
+  
   
   
   private async mostrarToast(mensaje: string, color: 'danger' | 'success') {
