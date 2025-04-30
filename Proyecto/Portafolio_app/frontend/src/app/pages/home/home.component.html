@@ -1,0 +1,32 @@
+<ion-header translucent>
+  <ion-toolbar color="success">
+    <ion-title class="title-header">Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding content-bg">
+  <h2 class="title">Come sano con lo que tienes a mano</h2>
+
+  <ion-searchbar placeholder="¿Qué hay en tu nevera?" color="light"></ion-searchbar>
+
+  <div class="chips-container">
+    <ion-chip *ngFor="let chip of chips" color="success" outline>
+      <ion-label>{{ chip }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <h4 class="section-title">Ingredientes destacados</h4>
+  <div class="highlighted-ingredients">
+    <ion-button fill="solid" color="primary" *ngFor="let item of destacados">
+      {{ item }}
+    </ion-button>
+  </div>
+
+  <h4 class="section-title">Recomendado para ti</h4>
+  <ion-card class="custom-card">
+    <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
+    <ion-card-content>
+      <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
