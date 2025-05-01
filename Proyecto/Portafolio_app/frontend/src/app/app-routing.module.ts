@@ -11,13 +11,13 @@ const routes: Routes = [
   {
     path: 'home',
     //canActivate: [authGuard], 
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),  
+    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),  
   },
   {
     path: 'auth',
     children: [
-      { path: 'login', loadChildren: () => import('./auth/login/login.module').then(m => m.LoginPageModule) },
-      { path: 'registrar', loadChildren: () => import('./auth/registrar/registrar.module').then(m => m.RegistrarPageModule) },
+      { path: 'login', loadChildren: () => import('./features/auth/login/login.module').then(m => m.LoginPageModule) },
+      { path: 'registrar', loadChildren: () => import('./features/auth/registrar/registrar.module').then(m => m.RegistrarPageModule) },
     ]
   },
   
