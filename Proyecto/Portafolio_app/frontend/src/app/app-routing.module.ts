@@ -20,7 +20,11 @@ const routes: Routes = [
       { path: 'registrar', loadChildren: () => import('./features/auth/registrar/registrar.module').then(m => m.RegistrarPageModule) },
     ]
   },
-  
+  {
+    path: 'tab',
+    //canActivate: [authGuard], 
+    loadChildren: () => import('./layout/tab-menu/tab-menu.module').then(m => m.TabMenuModule),  
+  },
 
 
 ];
