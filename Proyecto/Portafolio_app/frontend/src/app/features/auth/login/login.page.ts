@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
             console.log('✅ Inicio de sesión exitoso:', respuesta);
             await this.mostrarToast('Inicio de sesión exitoso!', 'success');
             // Aquí puedes redirigir al home, dashboard, etc.
+            this.router.navigate(['/home']);
           },
           error: async (error) => {
             console.error('❌ Error al iniciar sesión:', error);

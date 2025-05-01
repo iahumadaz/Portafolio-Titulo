@@ -32,18 +32,18 @@
         <!-- ion-item lines="none">
           <ion-input  [(ngModel)]="lg_nombre" type="nombre" placeholder="Nombre" style="color: #81ac8a;"></ion-input>
         </ion-item -->
-
+        <label position="floating">Correo Electrónico</label>
         <ion-item lines="none">
-          <ion-label position="floating">Correo Electrónico</ion-label>
-          <ion-input  [(ngModel)]="lg_email" type="email" placeholder="Email" style="color: #81ac8a;"></ion-input>
+          <ion-input  [(ngModel)]="lg_email" type="email" placeholder="email@emal.com" style="color: #81ac8a;"></ion-input>
         </ion-item>
-
+        <label position="floating">Contraseña</label>
         <ion-item lines="none">
           <ion-input [(ngModel)]="lg_password" type="password" placeholder="Contraseña" style="color: #81ac8a;"></ion-input>
         </ion-item>
 
         <ion-button expand="block" (click)="iniciarSesion()">Iniciar Sesión</ion-button>
-        <br>
+      
+        <p style="text-align: center">Si no tienes una cuenta:</p>
         <div class="registrarse-button">
           <ion-button expand="block" (click)="registrarse()">Registrate</ion-button>
         </div>
