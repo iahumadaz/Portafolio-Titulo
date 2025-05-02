@@ -6,7 +6,8 @@
 //* Desarrollador: Bastian Lisboa (BAS)                                         */
 //* Fecha: 26-04-2025                                                           */
 //*******************************************************************************/
-//* MODIFICACIONES                                                              */
+//* MODIFICACIONES           
+// Iván- crear las funciones del log  01-05-2025                                                   */
 //*******************************************************************************/
 //*******************************************************************************/
 
@@ -73,17 +74,7 @@ function loginUser(req, res) {
 }
 
 
-/*
 
-// Iniciar sesión
-function loginUser(req, res) {
-    const { email, password } = req.body;
-    console.log('Intento de login:', email);
-
-
-    res.status(200).json({ message: 'Inicio de sesión exitoso' });
-}*/
-// Exportar funciones
 module.exports = {
     registerUser,
     loginUser

@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
     toast.present();
   }
   registrarse() {
-    this.router.navigate(['/registrar']);
+    this.router.navigate(['auth/registrar']);
   }
 
 }
