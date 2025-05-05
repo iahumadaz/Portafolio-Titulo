@@ -73,9 +73,31 @@ function loginUser(req, res) {
     });
 }
 
+// Buscar ingredientes por nombre parcial
+function buscarIngredientes(req, res) {
+    const { texto } = req.query;
+
+    if (!texto) {
+        return res.status(400).json({ message: 'Texto de búsqueda requerido' });
+    }
+
+    const sql = `SELECT nombre FROM ingredientes WHERE nombre LIKE ? LIMIT 30`;
+    const values = [`%${texto}%`];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error al buscar ingredientes:', error);
+            return res.status(500).json({ message: 'Error en la búsqueda' });
+        }
+
+        const nombres = results.map(row => row.nombre);
+        res.status(200).json(nombres);
+    });
+}
 
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    buscarIngredientes
 };

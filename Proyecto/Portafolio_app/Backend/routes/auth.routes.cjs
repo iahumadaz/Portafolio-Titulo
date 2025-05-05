@@ -6,7 +6,8 @@
 //* Desarrollador: Bastian Lisboa (BAS)                                         */
 //* Fecha: 26-04-2025                                                           */
 //*******************************************************************************/
-//* MODIFICACIONES                                                              */
+//* MODIFICACIONES       
+// 04/05/2025 se agrega el buscacadr de ingredientes                            */
 //*******************************************************************************/
 //*******************************************************************************/
 
@@ -19,5 +20,9 @@ router.post('/register', authController.registerUser);
     
 //Iniciar sesión
 router.post('/login', authController.loginUser);
+
+// 🔹 Nueva ruta para búsqueda de ingredientes
+router.get('/buscar-ingredientes', authController.buscarIngredientes);
+
 
 module.exports = router;
