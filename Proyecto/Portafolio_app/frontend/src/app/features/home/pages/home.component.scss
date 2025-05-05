@@ -75,3 +75,20 @@ ion-button {
   color: #333;
   font-size: 14px;
 }
+.custom-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f2f2f2;
+  border-radius: 12px;
+  padding: 8px 12px;
+
+  ion-icon {
+    margin-right: 8px;
+    font-size: 20px;
+  }
+
+  ion-input {
+    flex: 1;
+    --padding-start: 0;
+  }
+}

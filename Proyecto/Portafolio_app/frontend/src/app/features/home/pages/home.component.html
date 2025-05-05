@@ -6,12 +6,20 @@
 <ion-content class="ion-padding content-bg">
   <h2 class="title">Come sano con lo que tienes a mano</h2>
 
-  <ion-searchbar 
-    [(ngModel)]="textoBusqueda"
-    (ionInput)="onBuscarCambio($event)"
-    class="searchbar" >
-  </ion-searchbar>
-  
+  <div class="custom-input-wrapper">
+    <ion-icon name="search"></ion-icon>
+    <ion-input
+      placeholder="Buscar ingredientes..."
+      [(ngModel)]="textoBusqueda"
+      (ionInput)="onBuscarCambio($event)"
+      (keyup.enter)="onBuscarCambioManual()"
+      clear-input="true"
+      type="text"
+      inputmode="text"
+      class="search-input">
+    </ion-input>
+  </div>
+
   <ion-list *ngIf="sugerencias.length > 0">
     <ion-item *ngFor="let sugerencia of sugerencias">
       {{ sugerencia }}
@@ -23,7 +31,6 @@
       <ion-label>{{ chip }}</ion-label>
     </ion-chip>
   </div>
-
 
   <h4 class="section-title">Recomendado para ti</h4>
   <ion-card class="custom-card">

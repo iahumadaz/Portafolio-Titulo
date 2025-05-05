@@ -30,17 +30,20 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   onBuscarCambio(event: any): void {
-    const texto = event.detail.value;
+    const texto = event.target.value; // ← este es el cambio importante
     this.textoBusqueda = texto;
-
+  
     if (texto.trim().length === 0) {
       this.sugerencias = [];
       return;
     }
-
+  
     this.ingredientesService.buscarIngredientes(texto).subscribe({
       next: (data) => this.sugerencias = data,
       error: (err) => console.error('Error en la búsqueda:', err)
     });
+  }
+  onBuscarCambioManual(): void {
+    this.onBuscarCambio({ target: { value: this.textoBusqueda } });
   }
 }
