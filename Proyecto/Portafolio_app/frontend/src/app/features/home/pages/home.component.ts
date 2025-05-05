@@ -1,31 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; 
+import { FormsModule } from '@angular/forms';
 import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.component';
+import { IngredientesService } from 'src/app/core/services/ingredientes.service';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  standalone: true,
   imports: [
-    CommonModule,    
+    CommonModule,
     IonicModule,
-    TabMenuComponent,
+    FormsModule,
+    TabMenuComponent
   ]
 })
-export class HomeComponent  implements OnInit {
+export class HomeComponent implements OnInit {
 
-  //remplazar por categorias desde la bdd
+  textoBusqueda: string = '';
+  sugerencias: string[] = [];
+
   chips = ['Tofu', 'Garbanzos', 'Setas', 'Tomates', 'Bajo en grasa'];
-
-  //Traer ingredientes x de la bdd
   destacados = ['Tofu', 'Arroz', 'Patata', 'Garbanzos'];
 
-  constructor() { }
+  constructor(private ingredientesService: IngredientesService) { }
 
   ngOnInit() {}
 
+  onBuscarCambio(event: any): void {
+    const texto = event.detail.value;
+    this.textoBusqueda = texto;
+
+    if (texto.trim().length === 0) {
+      this.sugerencias = [];
+      return;
+    }
+
+    this.ingredientesService.buscarIngredientes(texto).subscribe({
+      next: (data) => this.sugerencias = data,
+      error: (err) => console.error('Error en la búsqueda:', err)
+    });
+  }
 }

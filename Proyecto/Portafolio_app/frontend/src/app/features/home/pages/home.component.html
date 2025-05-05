@@ -6,7 +6,17 @@
 <ion-content class="ion-padding content-bg">
   <h2 class="title">Come sano con lo que tienes a mano</h2>
 
-  <ion-searchbar class="searchbar" placeholder="¿Qué hay en tu nevera?"></ion-searchbar>
+  <ion-searchbar 
+    [(ngModel)]="textoBusqueda"
+    (ionInput)="onBuscarCambio($event)"
+    class="searchbar" >
+  </ion-searchbar>
+  
+  <ion-list *ngIf="sugerencias.length > 0">
+    <ion-item *ngFor="let sugerencia of sugerencias">
+      {{ sugerencia }}
+    </ion-item>
+  </ion-list>
 
   <div class="chips-container">
     <ion-chip *ngFor="let chip of chips" color="success" outline>
