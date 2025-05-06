@@ -1,3 +1,14 @@
+//*******************************************************************************/
+//*                                   Cookwell                                  */
+//*******************************************************************************/
+//* proyecto: General Coockwell                                                 */
+//* servicio: log historico app service                                         */
+//* Desarrollador: Bastian Lisboa (BAS)                                         */
+//* Fecha: 22-04-2025                                                           */
+//*******************************************************************************/
+//* MODIFICACIONES                                                              */
+//*******************************************************************************/
+//*******************************************************************************/
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -37,10 +48,7 @@ export class LogService {
         console.error('❌ Error al enviar log:', err);
       }
     });
-    
-    
-    console.log();
-    
+
 
   }
 }

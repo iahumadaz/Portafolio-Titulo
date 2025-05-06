@@ -8,13 +8,15 @@
 //*******************************************************************************/
 //* MODIFICACIONES                                                              */
 //* 05-05-2025: Se añadieron logs para depuración del callback del registro     */
-//*******************************************************************************/          
-// Iván- crear las funciones del log  01-05-2025                                                   */
 //*******************************************************************************/
+// Iván- crear las funciones del log  01-05-2025                                */
+//*******************************************************************************/
+// Bastian- agrego generacion de token para login 06-05-2025 (Bas01)            */
 //*******************************************************************************/
 
 const { guardarLog } = require('./log.controller.cjs');  
 const db = require('../config/db.cjs');
+const { generarToken } = require('../services/auth.service.cjs');
 
 // Registrarse
 async function registerUser(req, res) {
@@ -67,33 +69,47 @@ async function registerUser(req, res) {
 
 
 // Iniciar sesión
-function loginUser(req, res) {
-    console.log('Entro a loginUser en backend -> auth.controller.cjs');
+async function loginUser(req, res) {
+    console.log('🔵 Entró a loginUser en backend -> auth.controller.cjs');
     const { email, password } = req.body;
-    console.log('Datos recibidos:', email, password);
-
-    // Verificación básica
+  
+    console.log('📨 Datos recibidos:', email, password);
+  
     if (typeof email !== 'string' || typeof password !== 'string') {
         return res.status(400).json({ message: 'Datos inválidos' });
     }
-
-    const sql = 'SELECT correo, clave FROM usuarios WHERE correo = ? AND clave = ?';
+  
+    const sql = 'SELECT id, correo FROM usuarios WHERE correo = ? AND clave = ?';
     const values = [email, password];
-
-    db.query(sql, values, (error, results) => {
-        if (error) {
-            console.error('Error al buscar usuario:', error);
-            return res.status(500).json({ message: 'Error al iniciar sesión' });
-        }
+  
+    console.log('🟡 Ejecutando SELECT en la base de datos...');
+  
+    try {
+        const [results] = await db.query(sql, values);
 
         if (results.length === 0) {
+            console.warn('⚠️ Usuario no encontrado o clave incorrecta');
             return res.status(401).json({ message: 'Correo o contraseña incorrectos' });
         }
 
-        console.log('Usuario encontrado:', results[0]);
-        res.status(200).json({ message: 'Inicio de sesión exitoso', usuario: results[0] });
-    });
+        const usuario = results[0];
+        const token = generarToken(usuario);
+  
+        console.log('✅ Usuario autenticado correctamente:', usuario);
+  
+        res.status(200).json({
+            message: 'Inicio de sesión exitoso',
+            token,
+            usuario
+        });
+
+    } catch (error) {
+        console.error('❌ Error al buscar usuario:', error);
+        res.status(500).json({ message: 'Error al iniciar sesión' });
+    }
 }
+
+  
 
 // Buscar ingredientes por nombre parcial
 function buscarIngredientes(req, res) {

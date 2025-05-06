@@ -8,6 +8,7 @@
 //*******************************************************************************/
 //* MODIFICACIONES                                                              */
 //*******************************************************************************/
+// Bastian - Cambio loginUser para recibir token y procesar 06-05-25 bas01      */
 //*******************************************************************************/
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
@@ -113,7 +114,7 @@ export class AuthService {
           const errMsg = `Error HTTP en registerUser: ${error.message || error}`;
           console.error(errMsg);
           this.logService.log(this.id_fun, this.nom_ser, errMsg, 'error');
-          return throwError(() => error); // Relanzamos el error para ser capturado más arriba
+          return throwError(() => error);
         })
       );
     } catch (error: any) {
@@ -121,20 +122,62 @@ export class AuthService {
       const errMsg = `Error en registerUser: ${error.message || error}`;
       console.error(errMsg);
       this.logService.log(this.id_fun, this.nom_ser, errMsg, 'error');
-      throw error; // Relanzamos el error si se quiere capturar más arriba
+      throw error;
     }
   }
   
-  
-  loginUser(email:string,password:string){
-    const body = {email: email, password };
-    return this.http.post(`${this.apiUrl}/login`, body);
-  }
+  //bas01-ini
 
-  //GUARD CORE (EN CONSTRUCCION)
-  isAuthenticated(): boolean {
-    const token = localStorage.getItem('token'); // o sessionStorage, depende de tu estrategia
-    return !!token; // Devuelve true si hay token
+  //loginUser(email: string, password: string) {
+  //  const body = { email, password };
+  //  //return this.http.post(${this.apiUrl}/login, body);
+  //  return this.http.post<any>(`${this.apiUrl}/login`, body);
+  //}
+
+  loginUser(email: string, password: string): Observable<any> {
+    try {
+      const body = { email, password };
+      const mensaje = 'Enviando datos al endpoint /login';
+      console.log('🔵 Entro a loginUser en front -> auth.service.ts', body);
+      this.logService.log(this.id_fun, this.nom_ser, mensaje, 'info');
+  
+      return this.http.post<any>(`${this.apiUrl}/login`, body).pipe(
+        catchError(error => {
+          const errMsg = `❌ Error HTTP en loginUser: ${error.message || error}`;
+          console.error(errMsg);
+          this.logService.log(this.id_fun, this.nom_ser, errMsg, 'error');
+          return throwError(() => error);
+        })
+      );
+    } catch (error: any) {
+      const errMsg = `❌ Error en loginUser: ${error.message || error}`;
+      console.error(errMsg);
+      this.logService.log(this.id_fun, this.nom_ser, errMsg, 'error');
+      throw error;
+    }
   }
+  //bas01-fin
+
+
+//GUARD CORE (EN CONSTRUCCION)
+isAuthenticated(): boolean {
+  const token = localStorage.getItem('token');
+
+  const mensaje = token
+    ? '🔒 Usuario autenticado con token válido'
+    : '🔓 Usuario no autenticado, token no encontrado';
+
+  console.log(mensaje);
+  this.logService.log(this.id_fun, this.nom_ser, mensaje, token ? 'info' : 'warn');
+
+  return !!token;
+}
+
+logout(): void {
+  localStorage.removeItem('token');
+  this.logService.log(this.id_fun, this.nom_ser, '🔴 Usuario cerró sesión', 'info');
+}
+
+
 }
 
