@@ -37,17 +37,18 @@
     </ion-chip>
   </div>
 
-  <!-- RECOMENDACIÓN -->
-  <div class="recomendado">
-    <h4 class="section-title">Recomendado para ti</h4>
-    <ion-card class="custom-card">
-      <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
-      <ion-card-content>
-        <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
-      </ion-card-content>
-    </ion-card>
-  </div>
-
 </ion-content>
 
+<!-- TARJETA RECOMENDADA AL FINAL Y MÁS ABAJO EN CAPAS -->
+<div style="position: relative; z-index: 0; margin: 0 16px 80px;">
+  <h4 class="section-title">Recomendado para ti</h4>
+  <ion-card class="custom-card">
+    <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
+    <ion-card-content>
+      <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!-- MENU INFERIOR -->
 <app-tab-menu></app-tab-menu>
