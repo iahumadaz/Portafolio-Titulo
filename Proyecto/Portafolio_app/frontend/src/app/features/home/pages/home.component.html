@@ -1,27 +1,53 @@
-<ion-header translucent>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-</ion-header>
+<ion-header translucent></ion-header>
 
-<ion-content class="ion-padding content-bg">
-  <h2 class="title">Come sano con lo que tienes a mano</h2>
+<ion-content class="content-bg">
 
-  <ion-searchbar class="searchbar" placeholder="¿Qué hay en tu nevera?"></ion-searchbar>
+  <!-- ENCABEZADO CON LOGO Y TÍTULO -->
+  <div class="top-image">
+    <img src="assets/icon/logo.jpg" alt="Logo" class="logo" />
+    <h2 class="title">Come sano con lo que tienes a mano</h2>
+  </div>
 
+  <!-- BUSCADOR -->
+  <div class="custom-input-wrapper">
+    <ion-icon name="search"></ion-icon>
+    <ion-input
+      placeholder="Buscar ingredientes..."
+      [(ngModel)]="textoBusqueda"
+      (ionInput)="onBuscarCambio($event)"
+      (keyup.enter)="onBuscarCambioManual()"
+      clear-input="true"
+      type="text"
+      inputmode="text"
+      class="search-input">
+    </ion-input>
+  </div>
+
+  <!-- SUGERENCIAS -->
+  <ion-list *ngIf="sugerencias.length > 0" class="sugerencias-list">
+    <ion-item *ngFor="let sugerencia of sugerencias">
+      {{ sugerencia }}
+    </ion-item>
+  </ion-list>
+
+  <!-- CHIPS DE INGREDIENTES -->
   <div class="chips-container">
     <ion-chip *ngFor="let chip of chips" color="success" outline>
       <ion-label>{{ chip }}</ion-label>
     </ion-chip>
   </div>
 
+  <!-- RECOMENDACIÓN -->
+  <div class="recomendado">
+    <h4 class="section-title">Recomendado para ti</h4>
+    <ion-card class="custom-card">
+      <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
+      <ion-card-content>
+        <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-  <h4 class="section-title">Recomendado para ti</h4>
-  <ion-card class="custom-card">
-    <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
-    <ion-card-content>
-      <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
-    </ion-card-content>
-  </ion-card>
 </ion-content>
 
 <app-tab-menu></app-tab-menu>

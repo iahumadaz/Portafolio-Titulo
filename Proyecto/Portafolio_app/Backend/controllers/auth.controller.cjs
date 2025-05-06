@@ -8,6 +8,9 @@
 //*******************************************************************************/
 //* MODIFICACIONES                                                              */
 //* 05-05-2025: Se añadieron logs para depuración del callback del registro     */
+//*******************************************************************************/          
+// Iván- crear las funciones del log  01-05-2025                                                   */
+//*******************************************************************************/
 //*******************************************************************************/
 
 const { guardarLog } = require('./log.controller.cjs');  
@@ -92,21 +95,31 @@ function loginUser(req, res) {
     });
 }
 
+// Buscar ingredientes por nombre parcial
+function buscarIngredientes(req, res) {
+    const { texto } = req.query;
 
-/*
+    if (!texto) {
+        return res.status(400).json({ message: 'Texto de búsqueda requerido' });
+    }
 
-// Iniciar sesión
-function loginUser(req, res) {
-    const { email, password } = req.body;
-    console.log('Intento de login:', email);
+    const sql = `SELECT nombre FROM ingredientes WHERE nombre LIKE ? LIMIT 30`;
+    const values = [`%${texto}%`];
 
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error al buscar ingredientes:', error);
+            return res.status(500).json({ message: 'Error en la búsqueda' });
+        }
 
-    res.status(200).json({ message: 'Inicio de sesión exitoso' });
-}*/
-
+        const nombres = results.map(row => row.nombre);
+        res.status(200).json(nombres);
+    });
+}
 
 // Exportar funciones
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    buscarIngredientes
 };
