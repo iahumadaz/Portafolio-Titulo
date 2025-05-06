@@ -7,55 +7,75 @@
 //* Fecha: 26-04-2025                                                           */
 //*******************************************************************************/
 //* MODIFICACIONES                                                              */
-//*******************************************************************************/
+//* 05-05-2025: Se añadieron logs para depuración del callback del registro     */
 //*******************************************************************************/
 
+const { guardarLog } = require('./log.controller.cjs');  
 const db = require('../config/db.cjs');
 
 // Registrarse
-function registerUser(req, res) {
+async function registerUser(req, res) {
     console.log('Entro a registerUser en backend -> auth.controller.cjs');
     const { nombre, email, password } = req.body;
     console.log('Datos recibidos:', nombre, email, password);
 
     if (!nombre || !email || !password) {
+        await guardarLog({
+            id_fun: '0001',
+            nombre_servicio: 'auth.controller.cjs',
+            mensaje: 'Todos los campos son obligatorios',
+            estado: 'error'
+        });
+        console.log('Todos los campos son obligatorios');
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
-    const id_tipo_usuario = 1; // Usuario normal
+    const id_tipo_usuario = 1;
 
-    const sql = 'INSERT INTO usuarios (username, correo, clave, id_tipo_usuario) VALUES (?, ?, ?, ?)';
-    const values = [nombre, email, password, id_tipo_usuario];
+    try {
+        const [results] = await db.query(
+            'INSERT INTO usuarios (username, correo, clave, id_tipo_usuario) VALUES (?, ?, ?, ?)',
+            [nombre, email, password, id_tipo_usuario]
+        );
 
-    db.query(sql, values, (error, results) => {
-        if (error) {
-            console.error('Error al registrar usuario:', error);
-            console.log('Error al registrar usuario:', error);
-            return res.status(500).json({ message: 'Error al registrar usuario' });
-        }
         console.log('Usuario registrado con ID:', results.insertId);
-        res.status(201).json({ message: 'Usuario registrado exitosamente' });
-    });
+
+        const msg = `Usuario registrado con ID: ${results.insertId}`;
+        await guardarLog({
+            id_fun: '0001',
+            nombre_servicio: 'auth.controller.cjs',
+            mensaje: msg,
+            estado: 'success'
+        });
+
+        res.status(201).json({ success: true, message: 'Usuario creado correctamente' });
+
+    } catch (error) {
+        console.error('Error al registrar usuario:', error);
+        await guardarLog({
+            id_fun: '0001',
+            nombre_servicio: 'auth.controller.cjs',
+            mensaje: 'Error al ejecutar insert en tabla usuarios',
+            estado: 'error'
+        });
+        res.status(500).json({ message: 'Error al registrar usuario' });
+    }
 }
 
 
-
-//const db = require('../database/db');
-
+// Iniciar sesión
 function loginUser(req, res) {
     console.log('Entro a loginUser en backend -> auth.controller.cjs');
     const { email, password } = req.body;
     console.log('Datos recibidos:', email, password);
 
-    if ( !email || !password) {
-        return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+    // Verificación básica
+    if (typeof email !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ message: 'Datos inválidos' });
     }
-
-    const id_tipo_usuario = 1; // Usuario normal
 
     const sql = 'SELECT correo, clave FROM usuarios WHERE correo = ? AND clave = ?';
     const values = [email, password];
-
 
     db.query(sql, values, (error, results) => {
         if (error) {
@@ -83,6 +103,8 @@ function loginUser(req, res) {
 
     res.status(200).json({ message: 'Inicio de sesión exitoso' });
 }*/
+
+
 // Exportar funciones
 module.exports = {
     registerUser,

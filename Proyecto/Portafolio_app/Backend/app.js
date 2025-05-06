@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const authRoutes = require('./routes/auth.routes.cjs');
-
+const logRoutes = require('./routes/log.routes.cjs');
 
 // Middlewares
 app.use(cors());
@@ -12,6 +12,7 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/auth', authRoutes); 
+app.use('/api/logs', logRoutes);
 
 // Ruta base
 app.get('/', (req, res) => {
