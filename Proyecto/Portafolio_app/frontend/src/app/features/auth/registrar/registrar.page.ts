@@ -13,6 +13,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { LogService } from 'src/app/core/services/log.service';
 
 @Component({
   selector: 'app-registrar',
@@ -25,8 +26,10 @@ export class RegistrarPage implements OnInit {
   rg_email: string = '';
   rg_password: string = '';
   rg_nombre: string = '';
+  id_fun: string = '0001';
+  nom_ser: string = 'registrar.page.ts';
 
-  constructor(private authService: AuthService,private toastController: ToastController, private router: Router) {}
+  constructor(private authService: AuthService,private toastController: ToastController, private router: Router, private logService: LogService) {}
 
   ngOnInit() {
   }
@@ -37,28 +40,38 @@ export class RegistrarPage implements OnInit {
       const resultado = this.authService.validaRegistro(this.rg_nombre, this.rg_email, this.rg_password);
   
       if (!resultado.valido) {
-        console.log("❌ Error de validación:", resultado.error);
+        const errorMsg = `❌ Error de validación: ${resultado.error}`;
+        console.log(errorMsg);
+        this.logService.log(this.id_fun,this.nom_ser,errorMsg,'error');
         await this.mostrarToast(resultado.error || 'Ocurrió un error desconocido', 'danger');
         return;
       }
   
-      console.log("✅ Datos válidos, enviando solicitud al backend...");
+      const Msg_dt = '✅ Datos válidos, enviando solicitud al backend...';
+      console.log(Msg_dt);
+  
+      this.logService.log(this.id_fun,this.nom_ser,Msg_dt,'ok');
   
       //enviamos al backend
       this.authService.registerUser(this.rg_nombre, this.rg_email, this.rg_password)
-        .subscribe({
-          next: async (respuesta) => {
-            console.log('✅ Registro exitoso:', respuesta);
-            await this.mostrarToast('Usuario registrado exitosamente!', 'success');
-            //NO OLVIDAR REDIRIGIR AQUI EN UN FUTURO A EL LOGIN
-            this.router.navigate(['/login']);
-          },
-          error: async (error) => {
-            console.error('❌ Error en el registro:', JSON.stringify(error));
-            await this.mostrarToast('Error en el registro. Intenta más tarde.', 'danger');
-            console.log('❌ Error en el registro:', JSON.stringify(error));
-          }
-        });
+      .subscribe({
+        next: async (respuesta) => {
+          console.log('✅ Registro exitoso:', respuesta);
+    
+          this.logService.log(this.id_fun, this.nom_ser, JSON.stringify(respuesta), 'success');
+    
+          await this.mostrarToast('Usuario registrado exitosamente!', 'success');
+          this.router.navigate(['auth/login']);
+
+
+        },
+        error: (error) => {
+          console.error('❌ Error en el registro:', JSON.stringify(error));
+          this.mostrarToast('Error en el registro. Intenta más tarde.', 'danger');
+          this.logService.log(this.id_fun, this.nom_ser, JSON.stringify(error), 'error');
+        }
+      });
+    
   
     } catch (error) {
       console.log("❌ Error inesperado:", error);

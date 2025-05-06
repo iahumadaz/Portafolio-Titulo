@@ -11,7 +11,8 @@
 //*******************************************************************************/
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; 
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { LogService } from 'src/app/core/services/log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,11 @@ export class AuthService {
   err_blancos: string = '';
   err_formato: string = '';
 
-  constructor(private http: HttpClient) { } 
+  id_fun: string = '0001';
+  nom_ser: string = 'auth.service.ts';
+
+
+  constructor(private http: HttpClient, private logService: LogService) { } 
 
   //**************************************************VALIDACIONES DATA*/
 
@@ -36,20 +41,21 @@ export class AuthService {
     if (nombre !== undefined && nombre.trim().length === 0) {
       this.err_blancos = "Nombre está vacío o con solo espacios";
       console.log('Nombre está vacío o con solo espacios');
+      this.logService.log(this.id_fun,this.nom_ser,this.err_blancos,'error');
       return { valido: false, error: this.err_blancos };
     }
 
     if (correo.trim().length === 0) {
       this.err_blancos = "Correo está vacío o con solo espacios";
       console.log('Correo está vacío o con solo espacios');
-      
+      this.logService.log(this.id_fun,this.nom_ser,this.err_blancos,'error');
       return { valido: false, error: this.err_blancos };
     }
 
     if (password.trim().length === 0) {
       this.err_blancos = "Contraseña está vacía o con solo espacios";
       console.log('Contraseña está vacía o con solo espacios');
-      
+      this.logService.log(this.id_fun,this.nom_ser,this.err_blancos,'error');
       return { valido: false, error: this.err_blancos };
     }
 
@@ -62,6 +68,7 @@ export class AuthService {
 
     if (!esValido) {
       this.err_formato = "Correo inválido. Ej: usuario@correo.cl";
+      this.logService.log(this.id_fun,this.nom_ser,this.err_formato,'error');
       return { valido: false, error: this.err_formato }; 
     }
 
@@ -93,11 +100,32 @@ export class AuthService {
   //**************************************************SOLICITUD API */
 
   registerUser(nombre: string, correo: string, password: string): Observable<any> {
-    const body = { nombre: nombre, email: correo, password };
-    console.log('Entro a RegisterUser en front -> auth.service.ts', body)
-
-    return this.http.post(`${this.apiUrl}/register`, body);
+    try {
+      // Validación y preparación de los datos antes de hacer la llamada HTTP
+      const body = { nombre, email: correo, password };
+      const mensaje = 'Enviando datos al endpoint /register';
+      console.log('Entro a RegisterUser en front -> auth.service.ts', body);
+      this.logService.log(this.id_fun, this.nom_ser, mensaje, 'info');
+  
+      // Realizando la solicitud HTTP con manejo de errores del servidor
+      return this.http.post(`${this.apiUrl}/register`, body).pipe(
+        catchError(error => {
+          const errMsg = `Error HTTP en registerUser: ${error.message || error}`;
+          console.error(errMsg);
+          this.logService.log(this.id_fun, this.nom_ser, errMsg, 'error');
+          return throwError(() => error); // Relanzamos el error para ser capturado más arriba
+        })
+      );
+    } catch (error: any) {
+      // Manejo de errores antes de la llamada HTTP (ej. validación de los datos)
+      const errMsg = `Error en registerUser: ${error.message || error}`;
+      console.error(errMsg);
+      this.logService.log(this.id_fun, this.nom_ser, errMsg, 'error');
+      throw error; // Relanzamos el error si se quiere capturar más arriba
+    }
   }
+  
+  
   loginUser(email:string,password:string){
     const body = {email: email, password };
     return this.http.post(`${this.apiUrl}/login`, body);
