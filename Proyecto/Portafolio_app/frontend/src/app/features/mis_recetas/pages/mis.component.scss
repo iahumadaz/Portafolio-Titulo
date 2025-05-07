@@ -1,0 +1,99 @@
+ion-content {
+    --background: #fff;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --offset-top: auto;
+    --offset-bottom: auto;
+    position: relative;
+  }
+
+  .receta-card {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    color: #000;
+    margin: 8px auto;
+    padding: 10px 12px;
+    width: 95%;
+    max-width: 600px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .receta-contenido {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .receta-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid #ddd;
+  }
+  
+  .receta-texto {
+    flex: 1;
+  }
+  
+  ion-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  ion-card-content p {
+    margin: 2px 0;
+    font-size: 0.85rem;
+    color: #444;
+  }
+  
+  .botones {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  
+  ion-button {
+    --padding-start: 0;
+    --padding-end: 0;
+    --icon-color: #666;
+    --background: transparent;
+    font-size: 1.2rem;
+  }
+  
+  ion-button[color='danger'] {
+    --color: #e74c3c;
+  }
+  
+  ion-fab {
+    bottom: 80px !important;
+  }
+  
+  ion-fab-button {
+    background-color: #c3edc0;
+    color: #000;
+  }
+
+  .contenido-detalle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  
+  .info p {
+    margin: 2px 0;
+    font-size: 0.85rem;
+    color: #444;
+  }
+  
+  .botones {
+    display: flex;
+    gap: 8px;
+  }

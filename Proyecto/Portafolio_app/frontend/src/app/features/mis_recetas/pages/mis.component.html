@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Recetas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngFor="let receta of misRecetas" class="receta-card">
+    <div class="receta-contenido">
+      <img [src]="receta.imagen" alt="Imagen de la receta" class="receta-img">
+
+      <div class="receta-texto">
+        <ion-card-title>{{ receta.nombre }}</ion-card-title>
+        <ion-card-content class="contenido-detalle">
+          <div class="info">
+            <p><strong>Tiempo:</strong> {{ receta.tiempo }}</p>
+            <p><strong>Dificultad:</strong> {{ receta.dificultad }}</p>
+          </div>
+        
+          <div class="botones">
+            <ion-button fill="clear" (click)="editarReceta(receta)">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="eliminarReceta(receta)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="agregarReceta()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+
+<!-- MENU INFERIOR -->
+<app-tab-menu></app-tab-menu>

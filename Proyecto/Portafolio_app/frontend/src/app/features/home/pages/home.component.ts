@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   onBuscarCambio(event: any): void {
-    const texto = event.target.value; // ← este es el cambio importante
+    const texto = event.target.value; 
     this.textoBusqueda = texto;
   
     if (texto.trim().length === 0) {

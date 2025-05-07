@@ -1,13 +1,13 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
+    <ion-tab-button tab="home" (click)="IrMenu()">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Inicio</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="recetas">
+    <ion-tab-button tab="recetas" (click)="IrMis()" >
       <ion-icon name="restaurant-outline"></ion-icon>
-      <ion-label>Recetas</ion-label>
+      <ion-label>Mis recetas</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="perfil">

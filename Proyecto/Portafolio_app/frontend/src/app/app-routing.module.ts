@@ -25,6 +25,12 @@ const routes: Routes = [
     //canActivate: [authGuard], 
     loadChildren: () => import('./layout/tab-menu/tab-menu.module').then(m => m.TabMenuModule),  
   },
+  {
+    path: 'mis',
+    //canActivate: [authGuard], 
+    loadChildren: () => import('./features/mis_recetas/mis.module').then( m => m.MisPageModule)
+  },
+
 
 
 ];
