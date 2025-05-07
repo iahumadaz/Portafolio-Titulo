@@ -20,6 +20,8 @@ import { LogService } from 'src/app/core/services/log.service';
 })
 export class AuthService {
 
+  private TOKEN_KEY = 'token';
+
   //desde android studio
   //private apiUrl = 'http://10.0.2.2:3000/api/auth';
 
@@ -173,11 +175,24 @@ isAuthenticated(): boolean {
   return !!token;
 }
 
+//obtener user token
+public getToken(): string | null {
+  return localStorage.getItem(this.TOKEN_KEY);
+}
+
+public getUserIdFromToken(): number | null {
+  const token = this.getToken();
+  if (!token) return null;
+  const payload = token.split('.')[1]; // Base64 payload
+  const decoded = JSON.parse(atob(payload)); // decodificamos
+  
+  return decoded?.id || null; 
+}
+
 logout(): void {
   localStorage.removeItem('token');
   this.logService.log(this.id_fun, this.nom_ser, '🔴 Usuario cerró sesión', 'info');
 }
-
 
 }
 

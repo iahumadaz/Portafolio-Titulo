@@ -7,8 +7,19 @@ ion-content {
     position: relative;
   }
 
+  ion-toolbar{
+    --background: #c3edc0;
+    --color: #000;
+    
+  }
+
+  ion-card-title {
+    color: black; /* Asegúrate de que el color del texto sea visible */
+    font-size: 16px; /* Ajusta el tamaño si es necesario */
+  }
+
   .receta-card {
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     border-radius: 12px;
     color: #000;
     margin: 8px auto;
@@ -35,6 +46,7 @@ ion-content {
   
   .receta-texto {
     flex: 1;
+    color: #000;
   }
   
   ion-card-title {
@@ -97,3 +109,5 @@ ion-content {
     display: flex;
     gap: 8px;
   }
+
+  
