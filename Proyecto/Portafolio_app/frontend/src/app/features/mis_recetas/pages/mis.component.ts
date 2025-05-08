@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { IonicModule, AlertController } from '@ionic/angular';
+import { IonicModule, AlertController, ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.component';
 import { HttpClient } from '@angular/common/http';
@@ -29,7 +29,8 @@ export class MisComponent implements OnInit {
   constructor(
     private alertCtrl: AlertController,
     private http: HttpClient,
-    private misRecetasService: MisRecetasService
+    private misRecetasService: MisRecetasService,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -88,4 +89,16 @@ export class MisComponent implements OnInit {
 
     await alert.present();
   }
+
+  async abrirModalReceta(receta: any) {
+    const modal = await this.modalCtrl.create({
+      component: 'RecetaModalComponent', // Reemplaza con el nombre de tu componente modal
+      componentProps: {
+        receta: receta
+      }
+    });
+    await modal.present();
+  }
+
 }
+
