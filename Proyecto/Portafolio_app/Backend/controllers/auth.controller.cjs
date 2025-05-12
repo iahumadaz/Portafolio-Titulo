@@ -119,7 +119,7 @@ function buscarIngredientes(req, res) {
         return res.status(400).json({ message: 'Texto de búsqueda requerido' });
     }
 
-    const sql = `SELECT nombre FROM ingredientes WHERE nombre LIKE ? LIMIT 30`;
+    const sql = `SELECT nombre FROM ingredientes WHERE nombre LIKE ? LIMIT 10`;
     const values = [`%${texto}%`];
 
     db.query(sql, values, (error, results) => {

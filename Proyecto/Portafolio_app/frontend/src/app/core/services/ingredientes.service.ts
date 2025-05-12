@@ -2,13 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class IngredientesService {
-  private api_URL = 'http://localhost:3000/api/ingredientes'; // Ajusta si usas proxy
+
+  private apiUrl = 'http://localhost:3000/api/ingredientes';
 
   constructor(private http: HttpClient) {}
 
-  buscarIngredientes(query: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.api_URL}?q=${query}`);
+  buscarIngredientes(nombre: string): Observable<string[]> {
+    const url = `${this.apiUrl}/buscar?texto=${encodeURIComponent(nombre)}`;
+    console.log('🌐 [FRONTEND] Llamada HTTP a:', url);
+    return this.http.get<string[]>(url);
   }
 }

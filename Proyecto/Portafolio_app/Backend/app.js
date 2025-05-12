@@ -7,7 +7,7 @@ const authRoutes = require('./routes/auth.routes.cjs');
 const logRoutes = require('./routes/log.routes.cjs');
 const recetasRoutes = require('./routes/recetas.routes.cjs');
 const ingredientesRoutes = require('./routes/ingredientes.routes.cjs');
-
+const recetasadmRoutes = require('./routes/recetasadm.routes.cjs');
 
 // Middlewares
 app.use(cors());
@@ -17,7 +17,9 @@ app.use(express.json());
 app.use('/api/auth', authRoutes); 
 app.use('/api/logs', logRoutes);
 app.use('/api/recetas', recetasRoutes);
-app.use('/api', ingredientesRoutes);
+app.use('/api/ingredientes', ingredientesRoutes);
+app.use('/api/recetasadm', recetasadmRoutes);
+
 // Ruta base
 app.get('/', (req, res) => {
   res.send('¡Backend Express corriendo con MySQL!');

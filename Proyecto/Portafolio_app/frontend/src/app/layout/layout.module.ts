@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TabMenuComponent } from './tab-menu/page/tab-menu.component';
 import { IonicModule } from '@ionic/angular';
-
+import { TabMenuComponent } from './tab-menu/page/tab-menu.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations:[TabMenuComponent],
+  declarations: [TabMenuComponent],
   imports: [
     CommonModule,
-    TabMenuComponent,
-    IonicModule
+    IonicModule,
+    RouterModule
   ],
   exports: [TabMenuComponent]
-  
 })
-export class LayoutModule { }
+export class LayoutModule {}
