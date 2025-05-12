@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MisRecetasService {
   private apiUrl = 'http://localhost:3000/api/recetas';
-  private apiUrlCR = 'http://localhost:3000/api/'
+  private apiUrlCR = 'http://localhost:3000/api/CrearReceta'
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,8 @@ export class MisRecetasService {
   }
 
   crearReceta(data: any): Observable<any> {
-  return this.http.post(`${this.apiUrlCR}/crearReceta`, data);
+    console.log("Datos enviados a backend:", data);
+  return this.http.post(`${this.apiUrlCR}/`, data);
 } 
 
 }

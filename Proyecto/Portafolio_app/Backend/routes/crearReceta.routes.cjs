@@ -15,6 +15,6 @@ const router = express.Router();
 const crearRecetaController = require('../controllers/crearReceta.controller.cjs');
 
 //log
-router.post('/crearReceta', crearRecetaController.crearReceta);
+router.post('/', crearRecetaController.crearReceta);
 
 module.exports = router;

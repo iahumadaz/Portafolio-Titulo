@@ -8,6 +8,7 @@ const logRoutes = require('./routes/log.routes.cjs');
 const recetasRoutes = require('./routes/recetas.routes.cjs');
 const ingredientesRoutes = require('./routes/ingredientes.routes.cjs');
 const recetasadmRoutes = require('./routes/recetasadm.routes.cjs');
+const CrearRecetas = require('./routes/crearReceta.routes.cjs');
 
 // Middlewares
 app.use(cors());
@@ -19,6 +20,7 @@ app.use('/api/logs', logRoutes);
 app.use('/api/recetas', recetasRoutes);
 app.use('/api/ingredientes', ingredientesRoutes);
 app.use('/api/recetasadm', recetasadmRoutes);
+app.use('/api/CrearReceta', CrearRecetas);
 
 // Ruta base
 app.get('/', (req, res) => {
