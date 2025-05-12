@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MisRecetasService {
   private apiUrl = 'http://localhost:3000/api/recetas';
+  private apiUrlCR = 'http://localhost:3000/api/'
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +19,8 @@ export class MisRecetasService {
     return this.http.delete(`${this.apiUrl}/${idReceta}`);
   }
 
-  // En el futuro podrías agregar:
-  // agregarReceta(data: any): Observable<any> {...}
-  // editarReceta(id: number, data: any): Observable<any> {...}
+  crearReceta(data: any): Observable<any> {
+  return this.http.post(`${this.apiUrlCR}/crearReceta`, data);
+} 
+
 }

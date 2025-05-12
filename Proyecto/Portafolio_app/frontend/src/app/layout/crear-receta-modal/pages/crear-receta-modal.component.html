@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
+    <ion-title>Crear receta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()" class="close-btn">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="formReceta" (ngSubmit)="crearReceta()">
+    <ion-item>
+      <ion-label position="floating">Nombre de la receta</ion-label>
+      <ion-input formControlName="nombre_receta" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tiempo de preparación</ion-label>
+      <ion-input formControlName="tiempo" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea formControlName="descripcion_receta" autoGrow="true"></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="full" color="success" type="submit" (click)="crearReceta()">
+      Guardar Receta
+    </ion-button>
+  </form>
+</ion-content>

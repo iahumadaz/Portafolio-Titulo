@@ -4,11 +4,13 @@ ion-content {
     --padding-bottom: 0;
     --offset-top: auto;
     --offset-bottom: auto;
-    position: relative;
+    --padding-bottom: 60px;
+    overflow: auto;
+    
   }
 
   ion-toolbar{
-    --background: #c3edc0;
+    --background:#a1d6a3;
     --color: #000;
     
   }
@@ -19,7 +21,7 @@ ion-content {
   }
 
   .receta-card {
-    background-color: #ffffff;
+    background-color: #a1d6a3;
     border-radius: 12px;
     color: #000;
     margin: 8px auto;
@@ -54,7 +56,6 @@ ion-content {
     font-weight: 600;
     margin-bottom: 4px;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
   }
   
@@ -83,7 +84,7 @@ ion-content {
   }
   
   ion-fab {
-    bottom: 80px !important;
+    bottom: 120px !important;
   }
   
   ion-fab-button {
@@ -109,5 +110,3 @@ ion-content {
     display: flex;
     gap: 8px;
   }
-
-  

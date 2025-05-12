@@ -6,6 +6,8 @@ import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.componen
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
+import { RecetaModalComponent } from 'src/app/layout/RecetaModal/page/receta-modal.component';
+import { CrearRecetaModalComponent } from 'src/app/layout/crear-receta-modal/pages/crear-receta-modal.component';
 
 @Component({
   selector: 'app-mis',
@@ -16,7 +18,9 @@ import { MisRecetasService } from 'src/app/core/services/mis-recetas.service';
     CommonModule,
     IonicModule,
     FormsModule,
-    TabMenuComponent
+    TabMenuComponent,
+    RecetaModalComponent,
+    CrearRecetaModalComponent
   ]
 })
 export class MisComponent implements OnInit {
@@ -25,6 +29,7 @@ export class MisComponent implements OnInit {
   misRecetas: any[] = [];
   idUsuario: string = '';
   nom_rec: string = '';
+  private currentModal: HTMLIonModalElement | null = null;
 
   constructor(
     private alertCtrl: AlertController,
@@ -51,6 +56,9 @@ export class MisComponent implements OnInit {
         }
       });
     }
+
+    this.misRecetas = [{ nombre_receta: 'Test receta', tiempo: '10 min', descripcion: 'Solo prueba' }];
+
   }
 
 
@@ -58,10 +66,6 @@ export class MisComponent implements OnInit {
     return this.http.get<any[]>(`${this.apiUrl}?id_usuario_creador=${this.idUsuario}`);
   }
 
-  agregarReceta() {
-    console.log('Agregar receta');
-    // Aquí puedes redirigir a un formulario o abrir un modal
-  }
 
   editarReceta(receta: any) {
     console.log('Editar receta:', receta);
@@ -90,15 +94,49 @@ export class MisComponent implements OnInit {
     await alert.present();
   }
 
-  async abrirModalReceta(receta: any) {
-    const modal = await this.modalCtrl.create({
-      component: 'RecetaModalComponent', // Reemplaza con el nombre de tu componente modal
-      componentProps: {
-        receta: receta
-      }
-    });
-    await modal.present();
+
+  async verDetalles(receta: any) {
+  console.log("🟢 Entro a verDetalles con receta:");
+  if (this.currentModal) {
+    await this.currentModal.dismiss();
+    this.currentModal = null;
+    return this.currentModal;
   }
+
+
+  this.currentModal = await this.modalCtrl.create({
+    component: RecetaModalComponent,
+    componentProps: { receta },
+    cssClass: 'custom-modal', // Clase personalizada
+    backdropDismiss: true,    // Permite cerrar tocando el fondo
+    animated: true,           // Hacer que la animación del modal sea más suave
+  });
+
+  await this.currentModal.present();
+  return this.currentModal;
+}
+
+ async agregarReceta() {
+    console.log('Agregar receta');
+     console.log("🟢 Entro a verDetalles con receta:");
+    if (this.currentModal) {
+      await this.currentModal.dismiss();
+      this.currentModal = null;
+      return this.currentModal;
+    }
+
+
+    this.currentModal = await this.modalCtrl.create({
+      component: CrearRecetaModalComponent,
+      cssClass: 'custom-modal', // Clase personalizada
+      backdropDismiss: true,    // Permite cerrar tocando el fondo
+      animated: true,           // Hacer que la animación del modal sea más suave
+    });
+
+    await this.currentModal.present();
+    return this.currentModal;
+  }
+
 
 }
 
