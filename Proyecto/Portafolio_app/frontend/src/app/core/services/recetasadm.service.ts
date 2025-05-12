@@ -22,4 +22,9 @@ export class RecetasadmService {
     const url = `${this.apiUrl}/buscar?ingrediente=${encodeURIComponent(ingrediente)}`;
     return this.http.get<RecetaAdm[]>(url);
   }
+  /** Obtiene una receta por su id */
+  obtenerPorId(id: number): Observable<RecetaAdm> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<RecetaAdm>(url);
+  }
 }

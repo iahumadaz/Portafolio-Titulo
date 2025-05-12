@@ -112,8 +112,11 @@
       <ion-row>
         <ion-col size="12" size-md="6" size-lg="4"
                  *ngFor="let r of recetas">
-          <ion-card class="recipe-card">
-            <img [src]="r.imagen_url" [alt]="r.nombre_receta" />
+            <ion-card 
+              class="recipe-card" 
+              button 
+              [routerLink]="['/home/detalle_receta', r.id]">          
+            <img class="card-image" [src]="r.imagen_url" [alt]="r.nombre_receta" />
             <ion-card-header>
               <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
             </ion-card-header>
