@@ -1,0 +1,49 @@
+ion-toolbar {
+  --background: #2e7d32;
+  --color: #ffffff;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+ion-content {
+  --background: #f9f9f6;
+  --padding-bottom: 60px;
+  overflow: auto;
+}
+
+.perfil-content {
+  --background: #f5fdf7;
+}
+
+.user-card {
+  text-align: center;
+
+  ion-avatar {
+    margin: 10px auto;
+    width: 80px;
+    height: 80px;
+  }
+
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2e7d32;
+  }
+
+  ion-card-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+  }
+}
+
+ion-item {
+  --inner-padding-end: 0;
+}
+
+canvas {
+  max-height: 250px;
+  margin-top: 10px;
+}

@@ -31,6 +31,11 @@ const routes: Routes = [
     //canActivate: [authGuard], 
     loadChildren: () => import('./features/mis_recetas/mis.module').then( m => m.MisPageModule)
   },
+  {
+    path: 'perfil',
+    //canActivate: [authGuard], 
+    loadChildren: () => import('./features/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
 
 
 

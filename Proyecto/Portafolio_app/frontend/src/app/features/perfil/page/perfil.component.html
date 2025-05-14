@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Información del usuario -->
+  <ion-card class="user-card">
+    <ion-card-header>
+      <ion-avatar>
+        <img src="assets/avatar-default.png" />
+      </ion-avatar>
+      <ion-card-title>{{ usuario.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ usuario.email }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label>Edad</ion-label>
+        <ion-note slot="end">{{ usuario.edad }} años</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Altura</ion-label>
+        <ion-note slot="end">{{ usuario.altura }} cm</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Peso</ion-label>
+        <ion-note slot="end">{{ usuario.peso }} kg</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Objetivo</ion-label>
+        <ion-note slot="end">{{ usuario.objetivo }}</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Preferencias</ion-label>
+        <ion-note slot="end">{{ usuario.preferencias }}</ion-note>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Gráfico IMC 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tu IMC</ion-card-title>
+      <ion-card-subtitle>{{ imcValor }} ({{ categoriaIMC }})</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas baseChart
+        [data]="imcChartData"
+        [options]="imcChartOptions"
+        [type]="'bar'">
+      </canvas>
+    </ion-card-content>
+  </ion-card>-->
+
+  <!-- Gráfico circular de macronutrientes 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Distribución Nutricional</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas baseChart
+        [data]="macroChartData"
+        [type]="'doughnut'">
+      </canvas>
+    </ion-card-content>
+  </ion-card>-->
+
+  <!-- Acciones -->
+  <ion-button expand="block" fill="outline" color="success">
+    Editar Perfil
+  </ion-button>
+  <ion-button expand="block" fill="outline" color="medium">
+    Ver Historial de Recetas
+  </ion-button>
+</ion-content>
+
+<app-tab-menu></app-tab-menu>

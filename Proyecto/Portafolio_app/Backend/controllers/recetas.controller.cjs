@@ -9,7 +9,7 @@ async function obtenerRecetas(req, res) {
     return res.status(400).json({ message: 'Falta id_usuario_creador en query' });
   }
 
-  const sql = 'SELECT * FROM recetas WHERE id_usuario_creador = ?';
+  const sql = 'SELECT nombre_receta, tiempo, descripcion_receta, id_valoracion, id_tipo_creador, id_usuario_creador, COALESCE(MAX(img.ruta_imagen), "") AS imagen_url FROM recetas r LEFT JOIN imagenes img ON img.id_recetas = r.id_recetas WHERE id_usuario_creador = ? GROUP BY r.id_recetas, r.nombre_receta, r.tiempo, r.descripcion_receta, r.id_valoracion, r.id_tipo_creador, r.id_usuario_creador ORDER BY r.id_recetas';
   const values = [id_usuario_creador];
 
   try {

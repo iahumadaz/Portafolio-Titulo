@@ -62,11 +62,6 @@ export class MisComponent implements OnInit {
   }
 
 
-  obtenerRecetas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?id_usuario_creador=${this.idUsuario}`);
-  }
-
-
   editarReceta(receta: any) {
     console.log('Editar receta:', receta);
     // Puedes abrir un modal o navegar a otra página con el ID

@@ -26,4 +26,8 @@ export class TabMenuComponent  implements OnInit {
   IrMis(){
     this.router.navigate(['mis']);
   }
+
+  IrPerfil(){
+    this.router.navigate(['perfil']);
+  }
 }
