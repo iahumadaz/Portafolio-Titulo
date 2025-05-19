@@ -91,46 +91,67 @@ export class MisComponent implements OnInit {
 
 
   async verDetalles(receta: any) {
-  console.log("🟢 Entro a verDetalles con receta:");
-  if (this.currentModal) {
-    await this.currentModal.dismiss();
-    this.currentModal = null;
-    return this.currentModal;
-  }
-
-
-  this.currentModal = await this.modalCtrl.create({
-    component: RecetaModalComponent,
-    componentProps: { receta },
-    cssClass: 'custom-modal', // Clase personalizada
-    backdropDismiss: true,    // Permite cerrar tocando el fondo
-    animated: true,           // Hacer que la animación del modal sea más suave
-  });
-
-  await this.currentModal.present();
-  return this.currentModal;
-}
-
- async agregarReceta() {
-    console.log('Agregar receta');
-     console.log("🟢 Entro a verDetalles con receta:");
+    console.log("🟢 Entro a verDetalles con receta:", receta);
     if (this.currentModal) {
+      console.warn("🔴 Ya hay un modal abierto, cerrando...");
       await this.currentModal.dismiss();
       this.currentModal = null;
-      return this.currentModal;
     }
 
+    try {
+      this.currentModal = await this.modalCtrl.create({
+        component: RecetaModalComponent,
+        componentProps: { receta },
+        cssClass: 'custom-modal',
+        backdropDismiss: true,
+        animated: true,
+      });
 
-    this.currentModal = await this.modalCtrl.create({
-      component: CrearRecetaModalComponent,
-      cssClass: 'custom-modal', // Clase personalizada
-      backdropDismiss: true,    // Permite cerrar tocando el fondo
-      animated: true,           // Hacer que la animación del modal sea más suave
-    });
+      await this.currentModal.present();
 
-    await this.currentModal.present();
-    return this.currentModal;
+      const { role } = await this.currentModal.onDidDismiss();
+      console.log("🔵 Modal cerrado con rol:", role);
+      this.currentModal = null;
+
+    } catch (err) {
+      console.error("❌ Error al abrir modal de detalles:", err);
+      this.currentModal = null;
+    }
   }
+
+
+
+  async agregarReceta() {
+    console.log("🟢 Entro a agregarReceta");
+
+    if (this.currentModal) {
+      console.warn("🔴 Ya hay un modal abierto, cerrando...");
+      await this.currentModal.dismiss();
+      this.currentModal = null;
+    }
+
+    try {
+      this.currentModal = await this.modalCtrl.create({
+        component: CrearRecetaModalComponent,
+        cssClass: 'custom-modal',
+        backdropDismiss: true,
+        animated: true,
+      });
+
+      await this.currentModal.present();
+
+      const { role } = await this.currentModal.onDidDismiss();
+      console.log("🔵 Modal cerrado con rol:", role);
+      this.currentModal = null;
+
+    } catch (err) {
+      console.error("❌ Error al crear modal:", err);
+      this.currentModal = null;
+    }
+  }
+
+
+  
 
 
 }
