@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.component';
+import { PerfilService } from 'src/app/core/services/perfil.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ModalController } from '@ionic/angular';
+import { ModalPerfilComponent } from 'src/app/layout/modal-perfil/pages/modal-perfil.component';
+
 
 @Component({
   selector: 'app-perfil',
@@ -17,33 +22,96 @@ import { TabMenuComponent } from 'src/app/layout/tab-menu/page/tab-menu.componen
   ]
 })
 export class PerfilComponent {
-  usuario = {
-    nombre: 'Bastian',
-    email: 'bastian@email.com',
-    edad: 24,
-    altura: 175, // cm
-    peso: 70, // kg
-    objetivo: 'Perder grasa',
-    preferencias: 'Vegano'
-  };
-
+  usuario: any = {};
+  edad: number | null = null;
   imcValor: number = 0;
   categoriaIMC: string = '';
   imcChartData: any;
   imcChartOptions: any;
   macroChartData: any;
+  mostrarCampos: boolean = false; // Controla visibilidad de campos
+  private currentModal: HTMLIonModalElement | null = null;
 
-  constructor() {
-    this.calcularIMC();
-    this.configurarGraficos();
+  constructor(
+    private authService: AuthService,
+    private alertController: AlertController,
+    private perfilService: PerfilService,
+    private modalCtrl: ModalController,
+  ) {}
+
+  ngOnInit() {
+    this.extraerUsrCli();
   }
 
-  calcularIMC() {
-    // Calcular IMC
-    const imc = this.usuario.peso / ((this.usuario.altura / 100) ** 2);
-    this.imcValor = imc;
+  /******************************* Backend ********************************* */
 
-    // Determinar la categoría del IMC
+  extraerUsrCli() {
+    const usuarioId = this.authService.getUserIdFromToken();
+
+    if (usuarioId) {
+      this.perfilService.apiObtCli(usuarioId).subscribe(
+        cliente => {
+          this.usuario = cliente[0] || {};
+          this.usuario.peso = Number(this.usuario.peso);
+          this.usuario.estatura = Number(this.usuario.estatura);
+
+          this.calcularEdad(this.usuario.fecha_nacimiento);
+          this.validarPerfil();
+          this.calcularIMC();
+          this.configurarGraficos();
+
+          // Aquí activo mostrarCampos si hay al menos un dato relleno
+          const camposMostrar = ['peso', 'estatura', 'fecha_nacimiento', 'sexo', 'alergias'];
+          this.mostrarCampos = camposMostrar.some(campo => this.usuario[campo]);
+        },
+        error => console.error('Error obteniendo cliente:', error)
+      );
+    } else {
+      console.warn('No se pudo obtener el ID del usuario desde el token.');
+    }
+  }
+
+  calcularEdad(fechaNacimientoStr: string) {
+    if (!fechaNacimientoStr) {
+      this.edad = null;
+      return;
+    }
+    const hoy = new Date();
+    const fechaNacimiento = new Date(fechaNacimientoStr);
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+    const m = hoy.getMonth() - fechaNacimiento.getMonth();
+
+    if (m < 0 || (m === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+      edad--;
+    }
+    this.edad = edad;
+  }
+
+  async validarPerfil() {
+    const campos = ['peso', 'estatura', 'fecha_nacimiento', 'sexo'];
+    const incompletos = campos.filter(campo => !this.usuario[campo]);
+
+    if (incompletos.length > 0) {
+      const alert = await this.alertController.create({
+        header: 'Perfil incompleto',
+        message: `Por favor, completa tu perfil (${incompletos.join(', ')}) para una mejor experiencia.`,
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
+  }
+
+  editarPerfil() {
+    this.mostrarCampos = true;
+  }
+
+  /******************************* IMC ********************************* */
+
+  calcularIMC() {
+    if (!this.usuario.estatura || !this.usuario.peso) return;
+    const imc = this.usuario.peso / (this.usuario.estatura ** 2);
+    this.imcValor = Number(imc.toFixed(2));
+
     if (imc < 18.5) {
       this.categoriaIMC = 'Bajo peso';
     } else if (imc >= 18.5 && imc < 24.9) {
@@ -55,8 +123,9 @@ export class PerfilComponent {
     }
   }
 
+  /******************************* Gráficos ********************************* */
+
   configurarGraficos() {
-    // Datos para el gráfico de IMC
     this.imcChartData = {
       labels: ['IMC'],
       datasets: [
@@ -68,7 +137,6 @@ export class PerfilComponent {
       ]
     };
 
-    // Opciones para el gráfico de IMC
     this.imcChartOptions = {
       responsive: true,
       scales: {
@@ -78,7 +146,6 @@ export class PerfilComponent {
       }
     };
 
-    // Datos para el gráfico de distribución de macronutrientes
     this.macroChartData = {
       labels: ['Carbohidratos', 'Proteínas', 'Grasas'],
       datasets: [
@@ -89,4 +156,62 @@ export class PerfilComponent {
       ]
     };
   }
+
+  /************************************modal*****************************/
+  async abrirModalEditar() {
+    const usuarioId = this.authService.getUserIdFromToken();
+    console.log("🟢 Entrando a abrirModalEditar");
+  
+    if (this.currentModal) {
+      console.warn("🔴 Ya hay un modal abierto, cerrando...");
+      await this.currentModal.dismiss();
+      this.currentModal = null;
+    }
+  
+    try {
+      this.currentModal = await this.modalCtrl.create({
+        component: ModalPerfilComponent,
+        componentProps: {
+          usuario: this.usuario
+        },
+        cssClass: 'custom-modal',
+        backdropDismiss: true,
+        animated: true,
+      });
+    
+      await this.currentModal.present();
+    
+      const { data, role } = await this.currentModal.onDidDismiss();
+      console.log("🔵 Modal cerrado con rol:", role);
+      this.currentModal = null;
+    
+      if (data) {
+        console.log("🟢 Datos recibidos del modal:", data);
+        this.usuario = { ...this.usuario, ...data };
+        this.mostrarCampos = true;
+
+        if (!this.usuario.id_cliente) {
+          // Si no existe id_cliente, creamos nuevo cliente
+          this.perfilService.crearCliente(this.usuario).subscribe({
+            next: (res) => {
+              this.usuario.id_cliente = res.id_cliente;  // Guardar nuevo id_cliente
+              console.log('✅ Cliente creado con ID:', res.id_cliente);
+            },
+            error: (err) => console.error('❌ Error al crear cliente:', err)
+          });
+        } else {
+          // Si ya existe id_cliente, actualizamos
+          this.perfilService.actualizarPerfil(this.usuario).subscribe({
+            next: () => console.log('✅ Perfil actualizado en backend'),
+            error: (err) => console.error('❌ Error al actualizar perfil:', err)
+          });
+        }
+      }
+    
+    } catch (error) {
+      console.error("❌ Error al abrir modal de edición:", error);
+      this.currentModal = null;
+    }
+  }
+
 }

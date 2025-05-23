@@ -5,70 +5,50 @@
 </ion-header>
 
 <ion-content>
-  <!-- Información del usuario -->
   <ion-card class="user-card">
     <ion-card-header>
       <ion-avatar>
         <img src="assets/avatar-default.png" />
       </ion-avatar>
-      <ion-card-title>{{ usuario.nombre }}</ion-card-title>
-      <ion-card-subtitle>{{ usuario.email }}</ion-card-subtitle>
+      <!-- Cambiado para usar los campos reales del backend -->
+      <ion-card-title>{{ usuario.nombre_cliente || 'Nombre no disponible' }}</ion-card-title>
+      <ion-card-subtitle>{{ usuario.email || 'Email no disponible' }}</ion-card-subtitle>
     </ion-card-header>
 
-    <ion-card-content>
+    <ion-card-content *ngIf="mostrarCampos">
       <ion-item lines="none">
         <ion-label>Edad</ion-label>
-        <ion-note slot="end">{{ usuario.edad }} años</ion-note>
+        <ion-note slot="end">{{ edad !== null ? edad + ' años' : 'No definida' }}</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Sexo</ion-label>
+        <ion-note slot="end">{{ usuario.sexo || 'No definido' }}</ion-note>
       </ion-item>
       <ion-item lines="none">
         <ion-label>Altura</ion-label>
-        <ion-note slot="end">{{ usuario.altura }} cm</ion-note>
+        <ion-note slot="end">{{ usuario.estatura || 'No definida' }} m</ion-note>
       </ion-item>
       <ion-item lines="none">
         <ion-label>Peso</ion-label>
-        <ion-note slot="end">{{ usuario.peso }} kg</ion-note>
+        <ion-note slot="end">{{ usuario.peso || 'No definido' }} kg</ion-note>
       </ion-item>
       <ion-item lines="none">
-        <ion-label>Objetivo</ion-label>
-        <ion-note slot="end">{{ usuario.objetivo }}</ion-note>
+        <ion-label>IMC</ion-label>
+        <ion-note slot="end">{{ imcValor }} ({{ categoriaIMC }})</ion-note>
       </ion-item>
       <ion-item lines="none">
-        <ion-label>Preferencias</ion-label>
-        <ion-note slot="end">{{ usuario.preferencias }}</ion-note>
+        <ion-label>Alergias</ion-label>
+        <ion-note slot="end">{{ usuario.alergias || 'Ninguna' }}</ion-note>
       </ion-item>
+    </ion-card-content>
+
+    <ion-card-content *ngIf="!mostrarCampos">
+      <p style="text-align: center; color: gray;">Presiona "Editar Perfil" para mostrar los datos.</p>
     </ion-card-content>
   </ion-card>
 
-  <!-- Gráfico IMC 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Tu IMC</ion-card-title>
-      <ion-card-subtitle>{{ imcValor }} ({{ categoriaIMC }})</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas baseChart
-        [data]="imcChartData"
-        [options]="imcChartOptions"
-        [type]="'bar'">
-      </canvas>
-    </ion-card-content>
-  </ion-card>-->
-
-  <!-- Gráfico circular de macronutrientes 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Distribución Nutricional</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas baseChart
-        [data]="macroChartData"
-        [type]="'doughnut'">
-      </canvas>
-    </ion-card-content>
-  </ion-card>-->
-
   <!-- Acciones -->
-  <ion-button expand="block" fill="outline" color="success">
+  <ion-button expand="block" fill="outline" color="success" (click)="abrirModalEditar()">
     Editar Perfil
   </ion-button>
   <ion-button expand="block" fill="outline" color="medium">

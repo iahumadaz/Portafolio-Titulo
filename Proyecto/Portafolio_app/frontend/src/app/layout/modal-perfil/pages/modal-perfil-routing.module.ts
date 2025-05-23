@@ -1,13 +1,17 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DetalleRecetaComponent } from './detalle_receta.component';
+import { ModalPerfilComponent } from './modal-perfil.component';  
 
 const routes: Routes = [
-  { path: '', component: DetalleRecetaComponent }
+  {
+    path: '',  
+    component: ModalPerfilComponent  
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DetalleRecetaRoutingModule {}
+export class ModalPerfilRoutingModule {}

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { misRoutingModule } from './pages/mis-routing.module';
+import { ModalPerfilComponent } from '../modal-perfil/pages/modal-perfil.component';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { misRoutingModule } from './pages/mis-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    misRoutingModule
+    ModalPerfilComponent
   ]
 })
-export class MisPageModule {}
+export class PerfilPageModule {}
