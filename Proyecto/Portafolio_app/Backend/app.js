@@ -9,6 +9,7 @@ const recetasRoutes = require('./routes/recetas.routes.cjs');
 const ingredientesRoutes = require('./routes/ingredientes.routes.cjs');
 const recetasadmRoutes = require('./routes/recetasadm.routes.cjs');
 const CrearRecetas = require('./routes/crearReceta.routes.cjs');
+const perfilRoutes = require('./routes/perfil.routes.cjs');
 
 // Middlewares
 app.use(cors());
@@ -21,7 +22,8 @@ app.use('/api/recetas', recetasRoutes);
 app.use('/api/ingredientes', ingredientesRoutes);
 app.use('/api/recetasadm', recetasadmRoutes);
 app.use('/api/CrearReceta', CrearRecetas);
-
+app.use('/api/CrearReceta', CrearRecetas);
+app.use('/api/perfil', perfilRoutes);
 // Ruta base
 app.get('/', (req, res) => {
   res.send('¡Backend Express corriendo con MySQL!');
