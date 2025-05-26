@@ -1,40 +1,58 @@
 // src/app/features/detalle_receta/pages/detalle_receta.component.ts
-import { Component, OnInit }      from '@angular/core';
-import { ActivatedRoute }         from '@angular/router';
-import { IonicModule }            from '@ionic/angular';
-import { CommonModule }           from '@angular/common';
-import { FormsModule }            from '@angular/forms';
-import { TabMenuComponent }   from 'src/app/layout/tab-menu/page/tab-menu.component';
-//import { RecetasadmService, RecetaDetalle } from 'src/app/core/services/recetasadm.service';
+import { Component, OnInit }  from '@angular/core';
+import { ActivatedRoute, RouterModule }      from '@angular/router';
+import { CommonModule }        from '@angular/common';
+import { FormsModule }         from '@angular/forms';
+import { IonicModule }         from '@ionic/angular';
+import { TabMenuComponent }    from 'src/app/layout/tab-menu/page/tab-menu.component';
 import {
   RecetasadmService,
-  RecetaDetalle
+  RecetaDetalle,
+  PasoDetalle
 } from 'src/app/core/services/recetasadm.service';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
   selector: 'app-detalle-receta',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule,TabMenuComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule,
+    TabMenuComponent   // ← para el TabBar
+  ],
   templateUrl: './detalle_receta.component.html',
   styleUrls: ['./detalle_receta.component.scss']
 })
 export class DetalleRecetaComponent implements OnInit {
-  receta!: RecetaDetalle;                         // ← tipo fuerte
-  pasos: RecetaDetalle['pasos'] = [];
+  receta!: RecetaDetalle;
+  pasos: PasoDetalle[] = [];
+  
 
   constructor(
     private route: ActivatedRoute,
     private recetasService: RecetasadmService
   ) {}
 
-  ngOnInit(): void {
+  /*ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.recetasService.getDetalleReceta(id)
-        .subscribe(res => {
-          this.receta = res;
-          this.pasos  = res.pasos;
-        });
-    }
-  }
+    this.recetasService.getDetalleReceta(id)
+      .subscribe(res => {
+        this.receta = res;
+        this.pasos  = res.pasos;
+      });
+  }*/
+  ngOnInit(): void {
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+  this.recetasService.getDetalleReceta(id)
+    //.pipe(
+    //  tap(res => console.log('DETALLE_API:', res))
+    //)
+    .subscribe(res => {
+      this.receta = res;
+      this.pasos  = res.pasos;
+    });
+}
+
 }

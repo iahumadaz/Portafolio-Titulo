@@ -1,35 +1,59 @@
 <!-- src/app/features/detalle_receta/pages/detalle_receta.component.html -->
-<ion-header translucent>
-  <ion-toolbar color="success">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" icon="arrow-back-outline"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ receta?.nombre_receta }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-page>
 
-<ion-content fullscreen class="detail-content">
-  <ion-card class="recipe-card">
+  <!-- 1) HEADER FIJO -->
+  <ion-header translucent>
+    <ion-toolbar color="success">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ receta?.nombre_receta }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- 2) CONTENIDO DESPLAZABLE -->
+  <ion-content fullscreen class="detail-content ion-padding">
+
     <!-- Imagen de la receta -->
-    <img 
-      [src]="receta?.imagen_url" 
-      [alt]="receta?.nombre_receta" 
-      class="recipe-img"
-    />
+    <ion-card class="recipe-card">
+      <img
+        *ngIf="receta?.imagen_url"
+        [src]="receta.imagen_url"
+        [alt]="receta.nombre_receta"
+        class="recipe-img"
+      />
+    </ion-card>
 
-    <ion-card-header>
-      <ion-card-title>{{ receta?.nombre_receta }}</ion-card-title>
-      <ion-card-subtitle>
-        <ion-icon name="time-outline"></ion-icon>
-        {{ receta?.tiempo_coccion }} min
-      </ion-card-subtitle>
-    </ion-card-header>
+    <!-- Tiempo y descripción -->
+    <ion-card class="info-card">
+      <ion-card-content>
+        <p>
+          <ion-icon name="time-outline"></ion-icon>
+          {{ receta?.tiempo_coccion }}
+        </p>
+        <p>{{ receta?.descripcion_receta }}</p>
+      </ion-card-content>
+    </ion-card>
 
-    <ion-card-content>
-      <p class="description">{{ receta?.descripcion_receta }}</p>
+    <!-- Botón Compartir -->
+    <ion-button expand="block" fill="outline">
+      <ion-icon slot="start" name="share-outline"></ion-icon>
+      Compartir
+    </ion-button>
 
-      <div class="steps">
-        <h3>Preparación</h3>
+    <!-- Macros -->
+    <div class="macros">
+      <div>Calorías</div>
+      <div>Carb.</div>
+      <div>Grasas</div>
+    </div>
+
+    <!-- Pasos al final -->
+    <ion-card class="steps-card">
+      <ion-card-header>
+        <ion-card-title>Preparación</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <ion-list lines="none">
           <ion-item *ngFor="let paso of pasos">
             <ion-label>
@@ -38,13 +62,16 @@
             </ion-label>
           </ion-item>
         </ion-list>
-      </div>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+      </ion-card-content>
+    </ion-card>
 
-<ion-footer translucent>
-  <ion-toolbar>
-    <app-tab-menu></app-tab-menu>
-  </ion-toolbar>
-</ion-footer>
+  </ion-content>
+
+  <!-- 3) FOOTER FIJO CON TABBAR -->
+  <ion-footer slot="fixed">
+    <ion-toolbar>
+      <app-tab-menu></app-tab-menu>
+    </ion-toolbar>
+  </ion-footer>
+
+</ion-page>
