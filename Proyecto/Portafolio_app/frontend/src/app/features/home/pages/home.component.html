@@ -1,92 +1,34 @@
-<!--ion-header translucent></ion-header>
 
-<ion-content class="content-bg"-->
-
-  <!-- ENCABEZADO CON LOGO Y TÍTULO -->
-  <!--div class="top-image">
-    <img src="assets/icon/logo.jpg" alt="Logo" class="logo" />
-    <h2 class="title">Come sano con lo que tienes a mano</h2>
-  </div>
-
-  <div class="custom-input-wrapper" style="position: relative;">
-
-    <ion-icon name="search"></ion-icon>
-
-    <ion-input
-      placeholder="Buscar ingredientes..."
-      [(ngModel)]="textoBusqueda"
-      (ionInput)="onBuscarCambio($event)"
-      (keyup.enter)="onBuscarCambioManual()"
-      clear-input="true"
-      type="text"
-      inputmode="text"
-      class="search-input">
-    </ion-input>
-    <p style="color: red">🔍 Sugerencias: {{ sugerencias | json }}</p-->
-    <!-- SUGERENCIAS AUTOCOMPLETADAS -->
-    <!--ion-list *ngIf="sugerencias.length > 0" class="sugerencias-list">
-      <ion-item *ngFor="let sugerencia of sugerencias" (click)="seleccionarSugerencia(sugerencia)">
-        {{ sugerencia }}
-      </ion-item>
-    </ion-list>
-    <ion-button expand="block" (click)="probarBusquedaManual()">🔍 Probar arroz</ion-button>
-  </div-->
-
-
-  <!-- CHIPS DE INGREDIENTES -->
-  <!--div class="chips-container">
-    <ion-chip *ngFor="let chip of chips" color="success" outline>
-      <ion-label>{{ chip }}</ion-label>
-    </ion-chip>
-  </div>
-
-</ion-content-->
-
-<!-- TARJETA RECOMENDADA AL FINAL Y MÁS ABAJO EN CAPAS -->
-<!--div style="position: relative; z-index: 0; margin: 0 16px 80px;">
-  <h4 class="section-title">Recomendado para ti</h4>
-  <ion-card class="custom-card">
-    <img src="assets/plato-ejemplo.jpg" alt="Receta recomendada">
-    <ion-card-content>
-      <p class="recommend-text">Receta recomendada basada en tus ingredientes</p>
-    </ion-card-content>
-  </ion-card>
-</div-->
-
-<!-- MENU INFERIOR >
-<app-tab-menu></app-tab-menu-->
 <!-- home.component.html -->
 
-
-<!--ion-header translucent>
-  <ion-toolbar color="success">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Come sano con lo que tienes a mano</ion-title>
-  </ion-toolbar>
-</ion-header-->
-
+<!-- Encabezado superior (vacío) para mantener la zona de estado móvil limpia -->
 <ion-header translucent></ion-header>
+
+<!-- Contenido principal de la vista Home -->
 <ion-content fullscreen class="home-content">
-  <!-- 1. Encabezado verde con logo centrado y título -->
+  <!-- 1. Encabezado verde con logo y título centrado -->
   <div class="header-wrapper">
-    <div class="logo-container" >
+    <div class="logo-container">
+      <!-- Logo de la aplicación -->
       <img src="assets/icon/logo.jpg" alt="Cookwell" class="logo-img" />
+      <!-- Título principal -->
       <h2 class="header-title">Come sano con lo que tienes a mano</h2>
     </div>
-    
   </div>
-  <br>
-  <br>
-  <br>
+
+  <!-- Espacio para separar visualmente secciones -->
+  <br><br><br>
+
+  <!-- 2. Card de búsqueda con ion-searchbar -->
   <div class="search-card">
+    <!-- Barra de búsqueda de Ionic vinculada al modelo textoBusqueda -->
     <ion-searchbar
       placeholder="Buscar ingrediente..."
       [(ngModel)]="textoBusqueda"
       (ionClear)="reset()"
       [animated]="true">
     </ion-searchbar>
+    <!-- Botón de búsqueda que llama a buscarRecetas() -->
     <ion-button
       expand="block"
       (click)="buscarRecetas()"
@@ -95,54 +37,57 @@
       Buscar
     </ion-button>
   </div>
-
-  <!-- Resultados de búsqueda -->
+  <!-- 3. Sección de resultados de búsqueda -->
   <ng-container *ngIf="busquedaActiva; else defaultSection">
+    <!-- Mensaje dinámico según encontremos recetas o no -->
     <h2
       class="section-message"
-      [ngClass]="{ 
-        'found': recetas.length > 0, 
-        'not-found': recetas.length === 0 
+      [ngClass]="{
+        'found': recetas.length > 0,   
+        'not-found': recetas.length === 0
       }">
       {{ recetas.length
-        ? 'Resultados para "' + textoBusqueda + '"' 
+        ? 'Resultados para "' + textoBusqueda + '"'
         : 'No se encontraron recetas para "' + textoBusqueda + '"' }}
     </h2>
+    <!-- Grid de Ionic para mostrar cada receta en tarjetas -->
     <ion-grid>
       <ion-row>
-        <ion-col size="12" size-md="6" size-lg="4"
-                 *ngFor="let r of recetas">
-            <ion-card 
-              class="recipe-card" 
-              button 
-              [routerLink]="['/home/detalle_receta', r.id]">          
-            <img class="card-image" [src]="r.imagen_url" [alt]="r.nombre_receta" />
+        <ion-col 
+          size="12" size-md="6" size-lg="4"
+          *ngFor="let receta of recetas">
+          <ion-card button [routerLink]="['/detalle_receta', receta.id]">
+            <img class="card-image" [src]="receta.imagen_url" [alt]="receta.nombre_receta" />
             <ion-card-header>
-              <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
+              <ion-card-title>{{ receta.nombre_receta }}</ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
+
   </ng-container>
 
-  <!-- Sección por defecto: primeras 5 recetas -->
+  <!-- 4. Sección por defecto: recomendaciones iniciales -->
   <ng-template #defaultSection>
     <h2 class="section-title">Recetas recomendadas</h2>
     <ion-grid>
       <ion-row>
-        <ion-col size="12" size-md="6" size-lg="4"
-                 *ngFor="let r of recetas">
-          <ion-card class="recipe-card">
-            <img [src]="r.imagen_url" [alt]="r.nombre_receta" />
+        <ion-col 
+          size="12" size-md="6" size-lg="4"
+          *ngFor="let receta of recetas">
+          <ion-card button [routerLink]="['/detalle_receta', receta.id]">
+            <img class="card-image" [src]="receta.imagen_url" [alt]="receta.nombre_receta" />
             <ion-card-header>
-              <ion-card-title>{{ r.nombre_receta }}</ion-card-title>
+              <ion-card-title>{{ receta.nombre_receta }}</ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
+
   </ng-template>
+  <router-outlet></router-outlet>
 </ion-content>
 
 <ion-footer>

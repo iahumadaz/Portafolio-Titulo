@@ -36,7 +36,14 @@ const routes: Routes = [
     //canActivate: [authGuard], 
     loadChildren: () => import('./features/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
-
+  {
+    path: 'detalle_receta/:id',
+    loadChildren: () =>
+      import('./features/detalle_receta/detalle_receta.module')
+        .then(m => m.DetalleRecetaModule)
+  },
+  // fallback 404
+  { path: '**', redirectTo: 'home' }
 
 
 ];
