@@ -16,8 +16,13 @@ export const environment = {
     messagingSenderId: "621913189584",
     appId: "1:621913189584:web:94ad3d03301d6e59d1c2d5",
     measurementId: "G-678ZX5K4YC"       // opcional, sólo para analytics
+  },
+  adminUser: {
+    email: 'bas.lisboa@duocuc.cl',
+    password: 'bas1821.'
   }
-};
+
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

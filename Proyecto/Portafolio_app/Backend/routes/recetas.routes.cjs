@@ -17,6 +17,8 @@ const RecetasController = require('../controllers/recetas.controller.cjs');
 // Ruta para obtener las recetas
 router.get('/', RecetasController.obtenerRecetas);  
 
+// PUT para editar una receta existente
+router.put('/:id_receta', RecetasController.editarReceta);
 module.exports = router;
 
 

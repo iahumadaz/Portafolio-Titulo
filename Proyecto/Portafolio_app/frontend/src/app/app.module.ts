@@ -1,17 +1,16 @@
-// app.module.ts
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
-
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-
-import { AngularFireModule } from '@angular/fire/compat'; // <-- compat
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { environment } from '../environments/environment'; // tu configuración Firebase
+import { RouteReuseStrategy } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,8 +19,15 @@ import { environment } from '../environments/environment'; // tu configuración 
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase), // inicializa Firebase
-    AngularFireStorageModule // módulo para almacenamiento
+    CommonModule,
+    FormsModule,
+    AngularFireAuthModule,
+
+    // Inicializar Firebase con AngularFireModule
+    AngularFireModule.initializeApp(environment.firebase),
+
+    // Modulo de Storage
+    AngularFireStorageModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

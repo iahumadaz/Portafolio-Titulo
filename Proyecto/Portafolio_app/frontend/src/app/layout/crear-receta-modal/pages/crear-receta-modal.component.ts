@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 // Firebase
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 
 @Component({
@@ -23,13 +24,14 @@ export class CrearRecetaModalComponent implements OnInit {
   formReceta!: FormGroup;
   selectedFile: File | null = null;
   previewImage: string | null = null;
-
+  idUsuario: string = '';
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private recetaService: MisRecetasService,
     private navCtrl: NavController,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private afAuth: AngularFireAuth
   ) { }
 
   ngOnInit() {
@@ -38,6 +40,15 @@ export class CrearRecetaModalComponent implements OnInit {
       tiempo: ['', [Validators.required]],
       descripcion_receta: ['', [Validators.required]]
     });
+
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.idUsuario = payload.id;
+      console.log("id usuario en recetas: ",this.idUsuario );
+      
+    }
   }
 
   onFileSelected(event: any) {
@@ -55,41 +66,45 @@ export class CrearRecetaModalComponent implements OnInit {
   }
 
   crearReceta() {
-  if (!this.selectedFile) {
-    alert('Por favor selecciona una imagen');
-    return;
+    if (!this.selectedFile) {
+      alert('Por favor selecciona una imagen');
+      return;
+    }
+
+    if (this.formReceta.valid) {
+      // Verifica si el usuario está autenticado
+      this.afAuth.authState.subscribe(user => {
+        if (!user) {
+          alert('Debes iniciar sesión para subir una receta');
+          return;
+        }
+
+        // Usuario autenticado, continuar con la subida
+        const filePath = `recetas/${Date.now()}_${this.selectedFile!.name}`;
+        const task = this.storage.upload(filePath, this.selectedFile!);
+
+        task.snapshotChanges().pipe(
+          finalize(() => {
+            this.storage.ref(filePath).getDownloadURL().subscribe(downloadURL => {
+              const receta = {
+                ...this.formReceta.value,
+                id_tipo_creador: 2,
+                id_usuario_creador: this.idUsuario,
+                imagen_url: downloadURL
+              };
+
+              this.recetaService.crearReceta(receta).subscribe(() => {
+                this.navCtrl.navigateBack('/home');
+              }, error => {
+                console.error('Error al crear receta:', error);
+              });
+            });
+          })
+        ).subscribe();
+      });
+    }
   }
 
-  if (this.formReceta.valid) {
-    const filePath = `recetas/${Date.now()}_${this.selectedFile.name}`;
-    const task = this.storage.upload(filePath, this.selectedFile);
-
-    task.percentageChanges().subscribe(progress => {
-      console.log('Progreso:', progress);
-    });
-
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        this.storage.ref(filePath).getDownloadURL().subscribe(downloadURL => {
-          console.log('URL de la imagen:', downloadURL);
-
-          const receta = {
-            ...this.formReceta.value,
-            id_tipo_creador: 2,
-            id_usuario_creador: 2,
-            imagen_url: downloadURL
-          };
-
-          this.recetaService.crearReceta(receta).subscribe(() => {
-            this.navCtrl.navigateBack('/home');
-          }, error => {
-            console.error('Error al crear receta:', error);
-          });
-        });
-      })
-    ).subscribe();
-  }
-}
 
 
   cerrarModal() {

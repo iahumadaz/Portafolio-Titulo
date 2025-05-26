@@ -35,7 +35,7 @@ async function registerUser(req, res) {
         return res.status(400).json({ message: 'Todos los campos son obligatorios' });
     }
 
-    const id_tipo_usuario = 1;
+    const id_tipo_usuario = 2;
 
     try {
         const [results] = await db.query(
