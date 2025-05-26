@@ -27,7 +27,7 @@ export interface RecetaDetalle {
   id_recetas: number;
   nombre_receta: string;
   descripcion_receta: string;
-  tiempo: number;
+  tiempo_coccion: number;
   imagen_url: string;
   valoracion_media: number;
   total_valoraciones: number;

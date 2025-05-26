@@ -44,15 +44,12 @@ export class DetalleRecetaComponent implements OnInit {
       });
   }*/
   ngOnInit(): void {
-  const id = Number(this.route.snapshot.paramMap.get('id'));
-  this.recetasService.getDetalleReceta(id)
-    //.pipe(
-    //  tap(res => console.log('DETALLE_API:', res))
-    //)
-    .subscribe(res => {
-      this.receta = res;
-      this.pasos  = res.pasos;
-    });
-}
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.recetasService.getDetalleReceta(id)
+      .subscribe(res => {
+        this.receta = res;
+        this.pasos  = res.pasos;
+      });
+  }
 
 }

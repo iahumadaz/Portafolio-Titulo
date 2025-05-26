@@ -22,7 +22,6 @@ import { TabMenuComponent }           from 'src/app/layout/tab-menu/page/tab-men
     DetalleRecetaComponent,
     TabMenuComponent
   ],
-  //templateUrl: ['./detalle_receta.component.html'],
-  //styleUrls: ['./detalle_receta.component.scss']
+
 })
 export class DetalleRecetaModule {}
