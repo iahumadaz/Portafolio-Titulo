@@ -1,0 +1,1 @@
+le faltan los nmodules y .angular
